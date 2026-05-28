@@ -166,6 +166,34 @@
   }
   .btn-retry:hover { background: #1d4ed8; }
 
+  .difficulty-selector {
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
+  }
+  .diff-btn {
+    padding: 6px 16px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    pointer-events: auto;
+  }
+  .diff-btn:hover {
+    background: #1e293b;
+    border-color: #64748b;
+    color: #e2e8f0;
+  }
+  .diff-btn.active {
+    background: #1e3a5f;
+    border-color: #38bdf8;
+    color: #38bdf8;
+  }
+
   .result-badge {
     padding: 4px 12px;
     border-radius: 9999px;
@@ -199,6 +227,7 @@
     <h1>🎯 射击训练</h1>
 
     <div class="stats-bar">
+      <div>难度: <span id="diffLabel">入门</span></div>
       <div>命中: <span id="score">0</span></div>
       <div>时间: <span id="timer">30</span>s</div>
     </div>
@@ -208,12 +237,22 @@
       <div class="overlay" id="overlayStart">
         <div class="overlay-title">射击训练</div>
         <div class="overlay-sub">点击移动的小球来得分<br>30秒内尽可能多地命中目标</div>
+        <div class="difficulty-selector" id="diffSelector">
+          <button class="diff-btn active" data-diff="easy">入门</button>
+          <button class="diff-btn" data-diff="medium">中等</button>
+          <button class="diff-btn" data-diff="hard">困难</button>
+        </div>
         <button class="btn btn-start" id="btnStart">开始游戏</button>
       </div>
       <div class="overlay hidden" id="overlayEnd">
-        <div class="overlay-label">最终得分</div>
+        <div class="overlay-label" id="endDiffLabel">入门</div>
         <div class="overlay-score" id="finalScore">0</div>
         <div class="overlay-label" id="gradeLabel"></div>
+        <div class="difficulty-selector" id="diffSelectorEnd">
+          <button class="diff-btn" data-diff="easy">入门</button>
+          <button class="diff-btn" data-diff="medium">中等</button>
+          <button class="diff-btn" data-diff="hard">困难</button>
+        </div>
         <button class="btn btn-retry" id="btnRetry">再来一局</button>
       </div>
     </div>
@@ -231,18 +270,27 @@ const ctx = canvas.getContext('2d');
 
 const scoreEl = document.getElementById('score');
 const timerEl = document.getElementById('timer');
+const diffLabel = document.getElementById('diffLabel');
 const overlayStart = document.getElementById('overlayStart');
 const overlayEnd = document.getElementById('overlayEnd');
 const finalScoreEl = document.getElementById('finalScore');
 const gradeLabel = document.getElementById('gradeLabel');
+const endDiffLabel = document.getElementById('endDiffLabel');
+const diffBtns = document.querySelectorAll('.diff-btn');
 
 const GAME_DURATION = 30;
 const BALL_COUNT = 5;
 const BALL_RADIUS = 22;
-const MIN_SPEED = 0.6;
-const MAX_SPEED = 1.4;
 const TRAIL_LENGTH = 8;
 
+const DIFFICULTY = {
+  easy:   { label: '入门', minSpeed: 1, color: '#4ade80' },
+  medium: { label: '中等', minSpeed: 2, color: '#fbbf24' },
+  hard:   { label: '困难', minSpeed: 3, color: '#f87171' }
+};
+
+let currentDiff = 'easy';
+let currentSpeed = DIFFICULTY.easy.minSpeed;
 let balls = [];
 let score = 0;
 let timeLeft = GAME_DURATION;
@@ -276,14 +324,13 @@ function createBall(excludeBalls = []) {
   } while (overlapping && attempts < 50);
 
   const angle = rand(0, Math.PI * 2);
-  const speed = rand(MIN_SPEED, MAX_SPEED);
   return {
     x, y,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
+    vx: Math.cos(angle) * currentSpeed,
+    vy: Math.sin(angle) * currentSpeed,
     radius: r,
     trail: [],
-    hue: Math.floor(rand(180, 280)) // blue to purple range
+    hue: Math.floor(rand(180, 280))
   };
 }
 
@@ -413,6 +460,9 @@ function startGame() {
   score = 0;
   timeLeft = GAME_DURATION;
   gameRunning = true;
+  const d = DIFFICULTY[currentDiff];
+  currentSpeed = d.minSpeed;
+  diffLabel.textContent = d.label;
   scoreEl.textContent = '0';
   timerEl.textContent = GAME_DURATION;
   timerEl.classList.remove('timer-warning');
@@ -432,17 +482,36 @@ function endGame() {
     animationId = null;
   }
 
+  const d = DIFFICULTY[currentDiff];
+  endDiffLabel.textContent = '难度: ' + d.label;
   finalScoreEl.textContent = score;
 
+  // grade thresholds adjust by difficulty
+  let s, a, b;
+  if (currentDiff === 'easy')       { s = 55; a = 44; b = 33; }
+  else if (currentDiff === 'medium') { s = 45; a = 36; b = 27; }
+  else                               { s = 35; a = 28; b = 21; }
+
   let grade, badgeClass;
-  if (score >= 40)       { grade = 'S 级 — 神枪手'; badgeClass = 'badge-s'; }
-  else if (score >= 25)  { grade = 'A 级 — 精准射手'; badgeClass = 'badge-a'; }
-  else if (score >= 12)  { grade = 'B 级 — 合格'; badgeClass = 'badge-b'; }
+  if (score >= s)        { grade = 'S 级 — 神枪手'; badgeClass = 'badge-s'; }
+  else if (score >= a)   { grade = 'A 级 — 精准射手'; badgeClass = 'badge-a'; }
+  else if (score >= b)   { grade = 'B 级 — 合格'; badgeClass = 'badge-b'; }
   else                   { grade = 'C 级 — 继续努力'; badgeClass = 'badge-c'; }
 
   gradeLabel.innerHTML = `<span class="result-badge ${badgeClass}">${grade}</span>`;
   overlayEnd.classList.remove('hidden');
 }
+
+function setDifficulty(diff) {
+  currentDiff = diff;
+  diffBtns.forEach(b => {
+    b.classList.toggle('active', b.dataset.diff === diff);
+  });
+}
+
+diffBtns.forEach(btn => {
+  btn.addEventListener('click', () => setDifficulty(btn.dataset.diff));
+});
 
 canvas.addEventListener('click', (e) => {
   if (!gameRunning) return;
