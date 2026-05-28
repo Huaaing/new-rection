@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>射击训练 - 在线测试你的射击定位能力</title>
+<meta name="description" content="免费在线射击训练工具，30秒限时点击移动目标，精准测量你的射击定位能力。">
+<meta name="keywords" content="射击训练,定位能力测试,反应力,在线测试,aim trainer">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wwbluetalk.top/shooting.html">
+
+<meta property="og:title" content="射击训练 - 测试你的射击定位能力">
+<meta property="og:description" content="免费在线射击训练，30秒限时点击移动小球，看看你的定位有多准。">
+<meta property="og:url" content="https://wwbluetalk.top/shooting.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="射击训练 - 测试你的射击定位能力">
+<meta name="twitter:description" content="免费在线射击训练，30秒限时点击移动小球，看看你的定位有多准。">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "射击训练",
+  "description": "免费在线射击训练工具，精准测量射击定位能力",
+  "url": "https://wwbluetalk.top/shooting.html",
+  "applicationCategory": "GameApplication",
+  "inLanguage": "zh-CN",
+  "browserRequirements": "Requires JavaScript"
+}
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+  }
+
+  .game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: 2px;
+  }
+
+  .nav-btn {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    background: #1e293b;
+    border-color: #38bdf8;
+    color: #38bdf8;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 32px;
+    font-size: 15px;
+    color: #94a3b8;
+    align-items: center;
+  }
+  .stats-bar span { color: #38bdf8; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .timer-warning { color: #ef4444 !important; }
+
+  .canvas-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 3px solid #334155;
+    background: #1e293b;
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+  }
+
+  canvas {
+    display: block;
+    cursor: crosshair;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    pointer-events: none;
+  }
+  .overlay.hidden { display: none; }
+
+  .overlay-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+  .overlay-sub {
+    font-size: 14px;
+    color: #94a3b8;
+    max-width: 280px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .overlay-score {
+    font-size: 48px;
+    font-weight: 800;
+    color: #38bdf8;
+  }
+  .overlay-label {
+    font-size: 14px;
+    color: #94a3b8;
+  }
+
+  .btn {
+    padding: 10px 32px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    pointer-events: auto;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn-start {
+    background: #16a34a;
+    color: #fff;
+  }
+  .btn-start:hover { background: #15803d; }
+  .btn-retry {
+    background: #2563eb;
+    color: #fff;
+  }
+  .btn-retry:hover { background: #1d4ed8; }
+
+  .result-badge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .badge-s { background: #166534; color: #4ade80; }
+  .badge-a { background: #1e3a5f; color: #60a5fa; }
+  .badge-b { background: #713f12; color: #fbbf24; }
+  .badge-c { background: #7f1d1d; color: #f87171; }
+
+  .info {
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    canvas { width: 340px; height: 340px; }
+    h1 { font-size: 22px; }
+    .stats-bar { gap: 16px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="game-area">
+    <a href="index.html" class="nav-btn">⚡ 反应力测试</a>
+    <h1>🎯 射击训练</h1>
+
+    <div class="stats-bar">
+      <div>命中: <span id="score">0</span></div>
+      <div>时间: <span id="timer">30</span>s</div>
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="canvas" width="600" height="450"></canvas>
+      <div class="overlay" id="overlayStart">
+        <div class="overlay-title">射击训练</div>
+        <div class="overlay-sub">点击移动的小球来得分<br>30秒内尽可能多地命中目标</div>
+        <button class="btn btn-start" id="btnStart">开始游戏</button>
+      </div>
+      <div class="overlay hidden" id="overlayEnd">
+        <div class="overlay-label">最终得分</div>
+        <div class="overlay-score" id="finalScore">0</div>
+        <div class="overlay-label" id="gradeLabel"></div>
+        <button class="btn btn-retry" id="btnRetry">再来一局</button>
+      </div>
+    </div>
+
+    <div class="info">
+      点击移动小球命中得分 — 小球消失后会自动补充新目标<br>
+      30秒倒计时结束统计你的总命中数
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+const scoreEl = document.getElementById('score');
+const timerEl = document.getElementById('timer');
+const overlayStart = document.getElementById('overlayStart');
+const overlayEnd = document.getElementById('overlayEnd');
+const finalScoreEl = document.getElementById('finalScore');
+const gradeLabel = document.getElementById('gradeLabel');
+
+const GAME_DURATION = 30;
+const BALL_COUNT = 5;
+const BALL_RADIUS = 22;
+const MIN_SPEED = 0.6;
+const MAX_SPEED = 1.4;
+const TRAIL_LENGTH = 8;
+
+let balls = [];
+let score = 0;
+let timeLeft = GAME_DURATION;
+let gameRunning = false;
+let animationId = null;
+let gameStartTime = 0;
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function createBall(excludeBalls = []) {
+  const r = BALL_RADIUS;
+  const margin = r + 2;
+  let x, y, overlapping;
+  let attempts = 0;
+
+  do {
+    x = rand(margin, canvas.width - margin);
+    y = rand(margin, canvas.height - margin);
+    overlapping = false;
+    for (const b of excludeBalls) {
+      const dx = x - b.x;
+      const dy = y - b.y;
+      if (Math.sqrt(dx * dx + dy * dy) < r * 3) {
+        overlapping = true;
+        break;
+      }
+    }
+    attempts++;
+  } while (overlapping && attempts < 50);
+
+  const angle = rand(0, Math.PI * 2);
+  const speed = rand(MIN_SPEED, MAX_SPEED);
+  return {
+    x, y,
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed,
+    radius: r,
+    trail: [],
+    hue: Math.floor(rand(180, 280)) // blue to purple range
+  };
+}
+
+function spawnBall() {
+  balls.push(createBall(balls));
+}
+
+function initBalls() {
+  balls = [];
+  for (let i = 0; i < BALL_COUNT; i++) {
+    spawnBall();
+  }
+}
+
+function updateTrails() {
+  for (const ball of balls) {
+    ball.trail.push({ x: ball.x, y: ball.y });
+    if (ball.trail.length > TRAIL_LENGTH) {
+      ball.trail.shift();
+    }
+  }
+}
+
+function moveBalls() {
+  for (const ball of balls) {
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    // bounce off walls
+    if (ball.x - ball.radius < 0) {
+      ball.x = ball.radius;
+      ball.vx = Math.abs(ball.vx);
+    } else if (ball.x + ball.radius > canvas.width) {
+      ball.x = canvas.width - ball.radius;
+      ball.vx = -Math.abs(ball.vx);
+    }
+    if (ball.y - ball.radius < 0) {
+      ball.y = ball.radius;
+      ball.vy = Math.abs(ball.vy);
+    } else if (ball.y + ball.radius > canvas.height) {
+      ball.y = canvas.height - ball.radius;
+      ball.vy = -Math.abs(ball.vy);
+    }
+  }
+}
+
+function drawBall(ball) {
+  // trail
+  for (let i = 0; i < ball.trail.length; i++) {
+    const t = ball.trail[i];
+    const alpha = (i / ball.trail.length) * 0.25;
+    const r = ball.radius * (0.4 + 0.6 * (i / ball.trail.length));
+    ctx.beginPath();
+    ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${ball.hue}, 70%, 55%, ${alpha})`;
+    ctx.fill();
+  }
+
+  // main body
+  const gradient = ctx.createRadialGradient(
+    ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3, ball.radius * 0.1,
+    ball.x, ball.y, ball.radius
+  );
+  gradient.addColorStop(0, `hsl(${ball.hue}, 80%, 70%)`);
+  gradient.addColorStop(1, `hsl(${ball.hue}, 60%, 35%)`);
+
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  // highlight
+  ctx.beginPath();
+  ctx.arc(ball.x - ball.radius * 0.25, ball.y - ball.radius * 0.25, ball.radius * 0.3, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.fill();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // subtle grid background
+  ctx.strokeStyle = 'rgba(51, 65, 85, 0.3)';
+  ctx.lineWidth = 0.5;
+  const gridSize = 40;
+  for (let x = gridSize; x < canvas.width; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = gridSize; y < canvas.height; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  for (const ball of balls) {
+    drawBall(ball);
+  }
+}
+
+function gameLoop(timestamp) {
+  if (!gameRunning) return;
+
+  const elapsed = (timestamp - gameStartTime) / 1000;
+  timeLeft = Math.max(0, GAME_DURATION - elapsed);
+  timerEl.textContent = Math.ceil(timeLeft);
+
+  if (timeLeft <= 5) {
+    timerEl.classList.add('timer-warning');
+  }
+
+  if (timeLeft <= 0) {
+    endGame();
+    return;
+  }
+
+  updateTrails();
+  moveBalls();
+  draw();
+  animationId = requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+  score = 0;
+  timeLeft = GAME_DURATION;
+  gameRunning = true;
+  scoreEl.textContent = '0';
+  timerEl.textContent = GAME_DURATION;
+  timerEl.classList.remove('timer-warning');
+  overlayStart.classList.add('hidden');
+  overlayEnd.classList.add('hidden');
+
+  initBalls();
+  draw();
+  gameStartTime = performance.now();
+  animationId = requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+  gameRunning = false;
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
+  finalScoreEl.textContent = score;
+
+  let grade, badgeClass;
+  if (score >= 40)       { grade = 'S 级 — 神枪手'; badgeClass = 'badge-s'; }
+  else if (score >= 25)  { grade = 'A 级 — 精准射手'; badgeClass = 'badge-a'; }
+  else if (score >= 12)  { grade = 'B 级 — 合格'; badgeClass = 'badge-b'; }
+  else                   { grade = 'C 级 — 继续努力'; badgeClass = 'badge-c'; }
+
+  gradeLabel.innerHTML = `<span class="result-badge ${badgeClass}">${grade}</span>`;
+  overlayEnd.classList.remove('hidden');
+}
+
+canvas.addEventListener('click', (e) => {
+  if (!gameRunning) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+  for (let i = balls.length - 1; i >= 0; i--) {
+    const ball = balls[i];
+    const dx = mx - ball.x;
+    const dy = my - ball.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist <= ball.radius) {
+      // hit! remove this ball and spawn a new one
+      balls.splice(i, 1);
+      score++;
+      scoreEl.textContent = score;
+      spawnBall();
+      return;
+    }
+  }
+});
+
+document.getElementById('btnStart').addEventListener('click', startGame);
+document.getElementById('btnRetry').addEventListener('click', startGame);
+
+// initial render
+initBalls();
+draw();
+</script>
+
+</body>
+</html>
