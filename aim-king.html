@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我是AWM王 - 狙击训练</title>
+<meta name="description" content="在线狙击训练，三种距离移动靶，测试你的狙击定位能力。">
+<meta name="keywords" content="狙击训练,AWM,射击训练,定位能力,aim trainer">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wwbluetalk.top/aim-king.html">
+
+<meta property="og:title" content="我是AWM王 - 狙击训练">
+<meta property="og:description" content="在线狙击训练，40米80米120米移动靶，测测你的狙击技术。">
+<meta property="og:url" content="https://wwbluetalk.top/aim-king.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="我是AWM王 - 狙击训练">
+<meta name="twitter:description" content="在线狙击训练，40米80米120米移动靶，测测你的狙击技术。">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "我是AWM王",
+  "description": "在线狙击训练工具，三种距离移动靶",
+  "url": "https://wwbluetalk.top/aim-king.html",
+  "applicationCategory": "GameApplication",
+  "inLanguage": "zh-CN",
+  "browserRequirements": "Requires JavaScript"
+}
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+  }
+
+  .game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: 2px;
+  }
+
+  .nav-row {
+    display: flex;
+    gap: 8px;
+  }
+  .nav-btn {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    background: #1e293b;
+    border-color: #38bdf8;
+    color: #38bdf8;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 28px;
+    font-size: 15px;
+    color: #94a3b8;
+    align-items: center;
+  }
+  .stats-bar span { color: #38bdf8; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .game-row {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .canvas-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 3px solid #334155;
+    background: #1e293b;
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    cursor: none;
+  }
+
+  .sense-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 14px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    min-width: 72px;
+  }
+  .sense-label {
+    font-size: 12px;
+    color: #64748b;
+    letter-spacing: 1px;
+  }
+  .sense-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #38bdf8;
+    font-variant-numeric: tabular-nums;
+  }
+  .sense-slider {
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 28px;
+    height: 200px;
+    background: #334155;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    accent-color: #38bdf8;
+  }
+  .sense-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sense-preset {
+    padding: 3px 10px;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .sense-preset:hover {
+    background: #1e293b;
+    border-color: #64748b;
+    color: #e2e8f0;
+  }
+  .sense-preset.active {
+    background: #1e3a5f;
+    border-color: #38bdf8;
+    color: #38bdf8;
+  }
+
+  @media (max-width: 768px) {
+    .game-row { flex-direction: column; align-items: center; }
+    .sense-panel { flex-direction: row; min-width: auto; padding: 10px 16px; }
+    .sense-slider { writing-mode: horizontal-tb; direction: ltr; width: 160px; height: 28px; }
+    .sense-presets { flex-direction: row; }
+    canvas { width: 340px; height: 243px; }
+  }
+
+  canvas {
+    display: block;
+  }
+
+  .info {
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    canvas { width: 360px; height: 360px; }
+    h1 { font-size: 22px; }
+    .stats-bar { gap: 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="game-area">
+    <div class="nav-row">
+      <a href="index.html" class="nav-btn">⚡ 反应力测试</a>
+      <a href="shooting.html" class="nav-btn">🎯 射击训练</a>
+    </div>
+    <h1>🔫 我是AWM王</h1>
+
+    <div class="stats-bar">
+      <div>命中: <span id="score">0</span></div>
+      <div>射击: <span id="shots">0</span></div>
+      <div>精度: <span id="accuracy">--</span>%</div>
+      <div>距离: <span id="distLabel">40</span>m</div>
+      <div>难度: <span id="diffLabel">入门</span></div>
+    </div>
+
+    <div class="game-row">
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <canvas id="canvas" width="700" height="500"></canvas>
+      </div>
+      <div class="sense-panel">
+        <div class="sense-label">灵敏度</div>
+        <div class="sense-value" id="senseValue">2.0</div>
+        <input type="range" class="sense-slider" id="senseSlider" min="0.5" max="3.0" step="0.1" value="2.0">
+        <div class="sense-presets">
+          <button class="sense-preset" data-sense="1.0">慢</button>
+          <button class="sense-preset active" data-sense="2.0">中</button>
+          <button class="sense-preset" data-sense="3.0">快</button>
+        </div>
+        <div class="sense-label" style="margin-top:8px;">难度</div>
+        <div class="sense-presets">
+          <button class="sense-preset active" data-diff="1.0">入门</button>
+          <button class="sense-preset" data-diff="1.5">普通</button>
+          <button class="sense-preset" data-diff="2.0">困难</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      点击画布锁定鼠标 — 移动鼠标平移镜头寻找目标<br>
+      十字准心对准假人点击射击 | 每次射击后需等待 1 秒装弹<br>
+      按 Esc 解锁鼠标 | 三种距离随机刷新: 40米 / 80米 / 120米
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const wrapper = document.getElementById('canvasWrapper');
+
+const scoreEl = document.getElementById('score');
+const shotsEl = document.getElementById('shots');
+const accuracyEl = document.getElementById('accuracy');
+const distLabel = document.getElementById('distLabel');
+const diffLabelEl = document.getElementById('diffLabel');
+
+const SCOPE_CX = canvas.width / 2;
+const SCOPE_CY = canvas.height / 2;
+const SCOPE_R = Math.min(canvas.width, canvas.height) * 0.38;
+
+// world is larger than scope view
+const WORLD_W = canvas.width * 2.5;
+const WORLD_H = canvas.height * 2.5;
+const WORLD_CX = WORLD_W / 2;
+const WORLD_CY = WORLD_H / 2;
+
+// background cache — render once, reuse every frame
+const bgCanvas = document.createElement('canvas');
+bgCanvas.width = WORLD_W;
+bgCanvas.height = WORLD_H;
+const bgCtx = bgCanvas.getContext('2d');
+let bgReady = false;
+
+const DISTANCES = {
+  40:  { scale: 0.052, speed: 1.3, label: '40m', color: '#4ade80', bulletMs: 100 },
+  80:  { scale: 0.026, speed: 0.75, label: '80m', color: '#fbbf24', bulletMs: 200 },
+  120: { scale: 0.017, speed: 0.4, label: '120m', color: '#f87171', bulletMs: 300 }
+};
+
+let currentDistance = 40;
+let dummyX = WORLD_CX;
+let dummyDir = 1;
+let dummyY = WORLD_CY;
+
+let cameraX = WORLD_CX;
+let cameraY = WORLD_CY;
+
+let score = 0;
+let totalShots = 0;
+let animationId = null;
+let sensitivity = 2.0;
+let difficulty = 1.0; // speed multiplier: 1.0 = 入门, 1.5 = 普通, 2.0 = 困难
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function spawnDummy() {
+  const keys = Object.keys(DISTANCES).map(Number);
+  currentDistance = keys[Math.floor(Math.random() * keys.length)];
+  distLabel.textContent = DISTANCES[currentDistance].label;
+
+  dummyDir = Math.random() < 0.5 ? 1 : -1;
+  // spawn within a patrol zone in world space
+  dummyX = dummyDir > 0
+    ? rand(WORLD_CX - 350, WORLD_CX - 100)
+    : rand(WORLD_CX + 100, WORLD_CX + 350);
+  dummyY = WORLD_CY + rand(-40, 40);
+}
+
+function cacheBackground() {
+  drawWorldBackground(bgCtx);
+  bgReady = true;
+}
+
+function drawWorldBackground(ctxBg) {
+  const w = WORLD_W;
+  const h = WORLD_H;
+  const cy = WORLD_CY;
+
+  // overcast sky
+  const skyGrad = ctxBg.createLinearGradient(0, 0, 0, h * 0.5);
+  skyGrad.addColorStop(0, '#8a8f94');
+  skyGrad.addColorStop(0.5, '#b0b5ba');
+  skyGrad.addColorStop(1, '#c8ccd0');
+  ctxBg.fillStyle = skyGrad;
+  ctxBg.fillRect(0, 0, w, h * 0.5);
+
+  // distant ruined skyline
+  ctxBg.fillStyle = '#6b6d70';
+  ctxBg.beginPath();
+  ctxBg.moveTo(0, cy + 20);
+  for (let x = 0; x <= w; x += 40) {
+    const hVar = Math.sin(x * 0.01) * 40 + Math.sin(x * 0.03) * 25;
+    ctxBg.lineTo(x, cy + 20 + hVar);
+  }
+  ctxBg.lineTo(w, h);
+  ctxBg.lineTo(0, h);
+  ctxBg.fill();
+
+  // ruined buildings in background
+  const buildings = [
+    { x: 50, w: 140, h: 180, broken: 30 },   { x: 220, w: 100, h: 220, broken: 50 },
+    { x: 370, w: 160, h: 150, broken: 25 },   { x: 560, w: 130, h: 200, broken: 60 },
+    { x: 730, w: 110, h: 240, broken: 45 },   { x: 880, w: 150, h: 170, broken: 35 },
+    { x: 1040, w: 120, h: 200, broken: 55 },  { x: 1200, w: 140, h: 160, broken: 40 },
+    { x: 1380, w: 130, h: 190, broken: 50 },  { x: 1540, w: 100, h: 210, broken: 30 },
+  ];
+  for (const b of buildings) {
+    const baseY = cy + 20;
+    const topY = baseY - b.h;
+
+    // building body (dark concrete)
+    ctxBg.fillStyle = '#4a4d52';
+    ctxBg.fillRect(b.x, topY, b.w, b.h);
+
+    // broken top edge
+    ctxBg.fillStyle = '#5c5f64';
+    ctxBg.beginPath();
+    ctxBg.moveTo(b.x, topY);
+    for (let bx = b.x; bx <= b.x + b.w; bx += 15) {
+      ctxBg.lineTo(bx, topY - Math.random() * b.broken);
+    }
+    ctxBg.lineTo(b.x + b.w, topY + b.h);
+    ctxBg.lineTo(b.x, topY + b.h);
+    ctxBg.fill();
+
+    // windows
+    ctxBg.fillStyle = '#2a2c2f';
+    for (let wy = topY + 25; wy < baseY - 30; wy += 40) {
+      for (let wx = b.x + 20; wx < b.x + b.w - 20; wx += 45) {
+        if (Math.random() < 0.6) {
+          ctxBg.fillRect(wx, wy, 22, 16);
+          // broken glass effect
+          ctxBg.fillStyle = 'rgba(180,185,190,0.2)';
+          ctxBg.fillRect(wx + 2, wy + 2, 8, 5);
+          ctxBg.fillStyle = '#2a2c2f';
+        }
+      }
+    }
+
+    // cracks
+    ctxBg.strokeStyle = '#3a3c40';
+    ctxBg.lineWidth = 1;
+    for (let c = 0; c < 3; c++) {
+      ctxBg.beginPath();
+      const cx = b.x + Math.random() * b.w;
+      ctxBg.moveTo(cx, topY + Math.random() * 30);
+      ctxBg.lineTo(cx + (Math.random() - 0.5) * 40, topY + 40 + Math.random() * (b.h - 40));
+      ctxBg.stroke();
+    }
+  }
+
+  // rubble piles on ground
+  ctxBg.fillStyle = '#5c5d60';
+  for (let i = 0; i < 30; i++) {
+    const rx = rand(20, w - 20);
+    const ry = cy + 30 + rand(-10, 100);
+    const rw = rand(15, 50);
+    const rh = rand(8, 20);
+    ctxBg.fillRect(rx, ry, rw, rh);
+    ctxBg.fillStyle = '#6e6f72';
+    ctxBg.fillRect(rx + 2, ry + 2, rw - 8, rh - 4);
+    ctxBg.fillStyle = '#5c5d60';
+  }
+
+  // debris on ground
+  ctxBg.fillStyle = '#7a7b7e';
+  for (let i = 0; i < 50; i++) {
+    ctxBg.beginPath();
+    ctxBg.arc(rand(20, w - 20), cy + 20 + rand(0, 130), rand(2, 6), 0, Math.PI * 2);
+    ctxBg.fill();
+  }
+
+  // crater
+  ctxBg.fillStyle = '#3e4044';
+  ctxBg.beginPath();
+  ctxBg.ellipse(WORLD_CX - 180, cy + 100, 50, 18, 0, 0, Math.PI * 2);
+  ctxBg.fill();
+  ctxBg.fillStyle = '#5a5c60';
+  ctxBg.beginPath();
+  ctxBg.ellipse(WORLD_CX - 180, cy + 95, 50, 12, 0, 0, Math.PI * 2);
+  ctxBg.fill();
+
+  // burned-out vehicle
+  const carX = WORLD_CX + 200;
+  const carY = cy + 50;
+  ctxBg.fillStyle = '#3a3c40';
+  ctxBg.fillRect(carX, carY, 80, 30);
+  ctxBg.fillRect(carX + 15, carY - 20, 50, 22);
+  ctxBg.fillStyle = '#2a2c30';
+  ctxBg.fillRect(carX + 20, carY - 16, 40, 14);
+  // wheels
+  ctxBg.fillStyle = '#1a1a1a';
+  ctxBg.beginPath();
+  ctxBg.arc(carX + 15, carY + 30, 10, 0, Math.PI * 2); ctxBg.fill();
+  ctxBg.beginPath();
+  ctxBg.arc(carX + 65, carY + 30, 10, 0, Math.PI * 2); ctxBg.fill();
+
+  // ground — asphalt / rubble mix
+  const groundGrad = ctxBg.createLinearGradient(0, cy + 20, 0, h);
+  groundGrad.addColorStop(0, '#636569');
+  groundGrad.addColorStop(0.3, '#55575b');
+  groundGrad.addColorStop(1, '#484a4e');
+  ctxBg.fillStyle = groundGrad;
+  ctxBg.fillRect(0, cy + 20, w, h - cy - 20);
+
+  // ground cracks
+  ctxBg.strokeStyle = '#3e4044';
+  ctxBg.lineWidth = 1;
+  for (let i = 0; i < 8; i++) {
+    ctxBg.beginPath();
+    const sx = rand(50, w - 50);
+    ctxBg.moveTo(sx, cy + 25);
+    ctxBg.lineTo(sx + rand(-30, 30), cy + 80 + rand(0, 100));
+    ctxBg.stroke();
+  }
+
+  // wall remnants
+  ctxBg.fillStyle = '#6b6d70';
+  for (let i = 0; i < 6; i++) {
+    const wx = 100 + i * 260 + rand(-30, 30);
+    ctxBg.fillRect(wx, cy - 20, rand(20, 60), rand(15, 40));
+    ctxBg.fillStyle = '#7c7e82';
+    ctxBg.fillRect(wx + 3, cy - 18, rand(10, 30), rand(8, 20));
+    ctxBg.fillStyle = '#6b6d70';
+  }
+}
+
+const dummyImg = new Image();
+dummyImg.src = '训练假人.png';
+let dummyImgLoaded = false;
+dummyImg.onload = () => { dummyImgLoaded = true; };
+
+function drawDummy(x, y, scale) {
+  if (!dummyImgLoaded) return;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+  const w = dummyImg.width;
+  const h = dummyImg.height;
+  ctx.drawImage(dummyImg, -w / 2, -h, w, h);
+  ctx.restore();
+}
+
+function drawScopeOverlay() {
+  // dark vignette
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.arc(SCOPE_CX, SCOPE_CY, SCOPE_R, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,0.9)';
+  ctx.fill('evenodd');
+  ctx.restore();
+
+  // scope rim
+  ctx.beginPath();
+  ctx.arc(SCOPE_CX, SCOPE_CY, SCOPE_R, 0, Math.PI * 2);
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 6;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(SCOPE_CX, SCOPE_CY, SCOPE_R + 3, 0, Math.PI * 2);
+  ctx.strokeStyle = '#444';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // mildot marks - horizontal
+  for (let i = -4; i <= 4; i++) {
+    if (i === 0) continue;
+    const dx = i * (SCOPE_R / 5);
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(SCOPE_CX + dx, SCOPE_CY - 8);
+    ctx.lineTo(SCOPE_CX + dx, SCOPE_CY + 8);
+    ctx.stroke();
+  }
+  // mildot marks - vertical
+  for (let i = -4; i <= 4; i++) {
+    if (i === 0) continue;
+    const dy = i * (SCOPE_R / 5);
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(SCOPE_CX - 8, SCOPE_CY + dy);
+    ctx.lineTo(SCOPE_CX + 8, SCOPE_CY + dy);
+    ctx.stroke();
+  }
+
+  // clip crosshair inside scope circle
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(SCOPE_CX, SCOPE_CY, SCOPE_R - 4, 0, Math.PI * 2);
+  ctx.clip();
+
+  const cx = SCOPE_CX;
+  const cy = SCOPE_CY;
+
+  // crosshair lines — full scope span
+  ctx.strokeStyle = 'rgba(255,0,0,0.5)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 6]);
+  ctx.beginPath();
+  ctx.moveTo(SCOPE_CX - SCOPE_R, cy);
+  ctx.lineTo(SCOPE_CX + SCOPE_R, cy);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx, SCOPE_CY - SCOPE_R);
+  ctx.lineTo(cx, SCOPE_CY + SCOPE_R);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // red dot at center (small)
+  ctx.fillStyle = 'rgba(255,0,0,0.95)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx, cy, 1, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fill();
+
+  // tiny gap around red dot
+  const gap = 10;
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx - gap, cy);
+  ctx.lineTo(cx + gap, cy);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - gap);
+  ctx.lineTo(cx, cy + gap);
+  ctx.stroke();
+
+  ctx.restore();
+
+  // range info display
+  const d = DISTANCES[currentDistance];
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(SCOPE_CX - 55, SCOPE_CY - SCOPE_R + 12, 110, 20);
+  ctx.fillStyle = d.color;
+  ctx.font = 'bold 12px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(d.label + ' | ' + (d.speed * 100).toFixed(0), SCOPE_CX, SCOPE_CY - SCOPE_R + 27);
+
+  // hit marker X
+  if (performance.now() < hitMarkerUntil) {
+    const progress = (hitMarkerUntil - performance.now()) / 100;
+    const alpha = progress;
+    const size = 10 + (1 - progress) * 8;
+    ctx.strokeStyle = `rgba(255,50,50,${alpha})`;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - size, cy - size);
+    ctx.lineTo(cx + size, cy + size);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx + size, cy - size);
+    ctx.lineTo(cx - size, cy + size);
+    ctx.stroke();
+  }
+
+  // reload indicator
+  if (performance.now() < reloadingUntil) {
+    const remain = (reloadingUntil - performance.now()) / 1000;
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
+    ctx.fillRect(SCOPE_CX - 40, SCOPE_CY + SCOPE_R - 32, 80, 20);
+    ctx.fillStyle = '#f87171';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('装弹中 ' + remain.toFixed(1) + 's', SCOPE_CX, SCOPE_CY + SCOPE_R - 17);
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // apply idle + reload sway to camera
+  const sway = getSwayOffset();
+  const viewX = cameraX + sway.x;
+  const viewY = cameraY + sway.y;
+
+  const offsetX = SCOPE_CX - viewX;
+  const offsetY = SCOPE_CY - viewY;
+
+  ctx.save();
+  // clip to scope circle
+  ctx.beginPath();
+  ctx.arc(SCOPE_CX, SCOPE_CY, SCOPE_R - 4, 0, Math.PI * 2);
+  ctx.clip();
+
+  // translate world so camera center aligns with scope center
+  ctx.translate(offsetX, offsetY);
+
+  // draw cached background (rendered once, no random jitter)
+  if (bgReady) {
+    ctx.drawImage(bgCanvas, 0, 0);
+  }
+
+  drawDummy(dummyX, dummyY, DISTANCES[currentDistance].scale);
+
+  ctx.restore();
+
+  // scope overlay drawn in screen space (no translation)
+  drawScopeOverlay();
+}
+
+let swayTime = 0;
+
+function update() {
+  swayTime += 0.016; // ~60fps increment
+
+  const d = DISTANCES[currentDistance];
+  dummyX += d.speed * difficulty * dummyDir;
+
+  const leftBound = WORLD_CX - 400;
+  const rightBound = WORLD_CX + 400;
+  if (dummyX > rightBound) {
+    dummyX = rightBound;
+    dummyDir = -1;
+  } else if (dummyX < leftBound) {
+    dummyX = leftBound;
+    dummyDir = 1;
+  }
+
+  // reload sway: linear decay over 1 second
+  if (performance.now() < reloadingUntil) {
+    reloadKickStrength = (reloadingUntil - performance.now()) / 1000;
+  } else {
+    reloadKickStrength = 0;
+  }
+}
+
+function getSwayOffset() {
+  // idle breathing sway — slow gentle drift
+  const idleX = Math.sin(swayTime * 1.3) * 12 + Math.sin(swayTime * 0.7) * 10;
+  const idleY = Math.cos(swayTime * 1.1) * 12 + Math.cos(swayTime * 0.8) * 10;
+
+  // reload bolt-action kick — vertical bounce only
+  const reloadY = Math.sin(swayTime * 24 + reloadKickAngle) * reloadKickStrength * 35;
+
+  return { x: idleX, y: idleY + reloadY };
+}
+
+function gameLoop() {
+  update();
+  checkPendingBullet();
+  draw();
+  animationId = requestAnimationFrame(gameLoop);
+}
+
+function getDummyHitbox() {
+  const d = DISTANCES[currentDistance];
+  if (!dummyImgLoaded) return { left: 0, right: 0, top: 0, bottom: 0 };
+  const halfW = (dummyImg.width / 2) * d.scale;
+  const h = dummyImg.height * d.scale;
+  return {
+    left: dummyX - halfW,
+    right: dummyX + halfW,
+    top: dummyY - h,
+    bottom: dummyY
+  };
+}
+
+let pointerLocked = false;
+let reloadingUntil = 0;       // timestamp when reload completes
+let reloadKickAngle = 0;      // current sway angle during reload
+let reloadKickStrength = 0;   // decay strength for reload sway
+let hitMarkerUntil = 0;
+let pendingBullet = null; // { aimX, aimY, checkTime, shotDistance }
+
+function shoot() {
+  if (performance.now() < reloadingUntil) return;
+  if (pendingBullet) return; // wait for previous bullet to land
+
+  totalShots++;
+  shotsEl.textContent = totalShots;
+
+  const sway = getSwayOffset();
+  const aimX = cameraX + sway.x;
+  const aimY = cameraY + sway.y;
+
+  // bullet travels — hit check delayed by distance
+  const d = DISTANCES[currentDistance];
+  pendingBullet = {
+    aimX, aimY,
+    checkTime: performance.now() + d.bulletMs,
+    shotDistance: currentDistance
+  };
+
+  // start 1-second reload + bolt-action kick (parallel to bullet flight)
+  reloadingUntil = performance.now() + 1000;
+  reloadKickAngle = rand(0, Math.PI * 2);
+  reloadKickStrength = 1.0;
+}
+
+function checkPendingBullet() {
+  if (!pendingBullet) return;
+  if (performance.now() < pendingBullet.checkTime) return;
+
+  const hitbox = getDummyHitbox();
+  if (
+    pendingBullet.aimX >= hitbox.left && pendingBullet.aimX <= hitbox.right &&
+    pendingBullet.aimY >= hitbox.top && pendingBullet.aimY <= hitbox.bottom
+  ) {
+    score++;
+    scoreEl.textContent = score;
+    hitMarkerUntil = performance.now() + 100;
+    spawnDummy();
+  }
+
+  const pct = totalShots > 0 ? Math.round((score / totalShots) * 100) : 0;
+  accuracyEl.textContent = pct;
+
+  pendingBullet = null;
+}
+
+canvas.addEventListener('click', () => {
+  // request pointer lock on first click
+  if (!pointerLocked) {
+    canvas.requestPointerLock();
+  }
+  shoot();
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  if (pointerLocked) {
+    cameraX += e.movementX * sensitivity;
+    cameraY += e.movementY * sensitivity;
+  } else {
+    // fallback: absolute position within canvas
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+    const panX = (mx - SCOPE_CX) * sensitivity;
+    const panY = (my - SCOPE_CY) * sensitivity;
+    cameraX = WORLD_CX + panX;
+    cameraY = WORLD_CY + panY;
+  }
+
+  cameraX = Math.max(SCOPE_R, Math.min(WORLD_W - SCOPE_R, cameraX));
+  cameraY = Math.max(SCOPE_R, Math.min(WORLD_H - SCOPE_R, cameraY));
+});
+
+document.addEventListener('pointerlockchange', () => {
+  pointerLocked = document.pointerLockElement === canvas;
+  canvas.style.cursor = pointerLocked ? 'none' : 'none';
+});
+
+// sensitivity controls
+const senseSlider = document.getElementById('senseSlider');
+const senseValueEl = document.getElementById('senseValue');
+const sensePresets = document.querySelectorAll('[data-sense]');
+const diffPresets = document.querySelectorAll('[data-diff]');
+
+senseSlider.addEventListener('input', () => {
+  sensitivity = parseFloat(senseSlider.value);
+  senseValueEl.textContent = sensitivity.toFixed(2);
+  sensePresets.forEach(b => b.classList.toggle('active', b.dataset.sense === senseSlider.value));
+});
+
+sensePresets.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sensitivity = parseFloat(btn.dataset.sense);
+    senseSlider.value = sensitivity;
+    senseValueEl.textContent = sensitivity.toFixed(2);
+    sensePresets.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+diffPresets.forEach(btn => {
+  btn.addEventListener('click', () => {
+    difficulty = parseFloat(btn.dataset.diff);
+    diffLabelEl.textContent = btn.textContent;
+    diffPresets.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// keyboard controls
+document.addEventListener('keydown', (e) => {
+  if (e.key === ' ' || e.code === 'Space') {
+    e.preventDefault();
+    canvas.click();
+  }
+});
+
+spawnDummy();
+cacheBackground();
+gameLoop();
+</script>
+
+</body>
+</html>
