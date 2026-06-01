@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<meta name="author" content="BlueTalk">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f172a'/><text x='50' y='.7em' font-size='80' text-anchor='middle'>🎯</text></svg>">
 <title>射击训练 - 在线测试你的射击定位能力</title>
 <meta name="description" content="免费在线射击训练工具，30秒限时点击移动目标，精准测量你的射击定位能力。">
 <meta name="keywords" content="射击训练,定位能力测试,反应力,在线测试,aim trainer">
@@ -14,10 +18,16 @@
 <meta property="og:url" content="https://wwbluetalk.top/shooting.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wwbluetalk.top/og-image-shooting.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="射击训练 - 在线测试你的射击定位能力">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="射击训练 - 测试你的射击定位能力">
 <meta name="twitter:description" content="免费在线射击训练，30秒限时点击移动小球，看看你的定位有多准。">
+<meta name="twitter:image" content="https://wwbluetalk.top/og-image-shooting.png">
+<meta name="twitter:image:alt" content="射击训练 - 在线测试你的射击定位能力">
 
 <script type="application/ld+json">
 {
@@ -28,7 +38,30 @@
   "url": "https://wwbluetalk.top/shooting.html",
   "applicationCategory": "GameApplication",
   "inLanguage": "zh-CN",
-  "browserRequirements": "Requires JavaScript"
+  "browserRequirements": "Requires JavaScript",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "反应力测试",
+    "item": "https://wwbluetalk.top/"
+  }, {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "射击训练",
+    "item": "https://wwbluetalk.top/shooting.html"
+  }]
 }
 </script>
 <style>
@@ -221,7 +254,7 @@
 </head>
 <body>
 
-<div class="main-container">
+<main>
   <div class="game-area">
     <div class="nav-row" style="display:flex;gap:8px;">
       <a href="index.html" class="nav-btn">⚡ 反应力测试</a>
@@ -264,8 +297,13 @@
       点击移动小球命中得分 — 小球消失后会自动补充新目标<br>
       30秒倒计时结束统计你的总命中数
     </div>
-  </div>
-</div>
+</main>
+
+<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:#64748b;font-size:13px;line-height:2;border-top:1px solid #1e293b;">
+  <p style="color:#94a3b8;font-size:15px;font-weight:600;margin-bottom:8px;">关于射击训练</p>
+  <p>在线射击定位能力测试，<strong style="color:#cbd5e1;">30 秒限时挑战</strong>，三种难度可选。移动小球在画布中弹跳，点击命中即可得分。训练你的鼠标定位精度和手眼协调能力，受到 FPS 玩家和电竞训练者的欢迎。</p>
+  <p style="margin-top:8px;">更多在线小工具：<a href="index.html" style="color:#38bdf8;">反应力测试</a> · <a href="aim-king.html" style="color:#38bdf8;">狙击训练</a> | &copy; 2026 BlueTalk</p>
+</footer>
 
 <script>
 const canvas = document.getElementById('canvas');

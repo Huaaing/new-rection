@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wwbluetalk/sitemap.xml
+Sitemap: https://wwbluetalk.top/sitemap.xml
