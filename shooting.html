@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#0f172a">
 <meta name="author" content="Blue Lightning">
 <meta property="og:site_name" content="Blue Lightning">
-<link rel="icon" type="image/png" href="Reactr图标.png">
-<link rel="apple-touch-icon" href="Reactr图标.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2338bdf8'/><stop offset='100%' stop-color='%23818cf8'/></linearGradient></defs><polygon points='20,4 8,22 16,22 15,36 28,16 21,16 22,4' fill='url(%23g)'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230f172a'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2338bdf8'/><stop offset='100%' stop-color='%23818cf8'/></linearGradient></defs><polygon points='90,24 48,78 72,78 68,120 108,66 86,66 88,24' fill='url(%23g)'/></svg>">
 <title>射击训练 - Blue Lightning 在线测试你的射击定位能力</title>
 <meta name="description" content="免费在线射击训练工具，30秒限时点击移动目标，精准测量你的射击定位能力。">
 <meta name="keywords" content="射击训练,定位能力测试,反应力,在线测试,aim trainer">
@@ -16,7 +16,7 @@
 <link rel="alternate" hreflang="zh-CN" href="https://wwbluetalk.top/shooting.html">
 <link rel="alternate" hreflang="x-default" href="https://wwbluetalk.top/">
 
-<meta property="og:title" content="射击训练 - Blue Lightning 测试你的射击定位能力">
+<meta property="og:title" content="射击训练(Aim Trainer) - Blue Lightning 测试你的射击定位能力">
 <meta property="og:description" content="免费在线射击训练，30秒限时点击移动小球，看看你的定位有多准。">
 <meta property="og:url" content="https://wwbluetalk.top/shooting.html">
 <meta property="og:type" content="website">
@@ -107,7 +107,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 120px;
   }
 
   .main-container {
@@ -125,14 +125,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 32px;
   }
 
   h1 {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
     color: var(--heading);
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: -20px;
+    max-width: 480px;
+    line-height: 1.6;
   }
 
   .nav-btn {
@@ -283,13 +292,15 @@
     left: 0;
     right: 0;
     z-index: 100;
-    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
     border-bottom: 1px solid var(--card-border);
-    padding: 10px 24px;
+    box-shadow: 0 1px 12px rgba(0,0,0,0.15);
+    padding: 12px 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     gap: 16px;
   }
   .nav-brand {
@@ -319,6 +330,7 @@
     cursor: pointer;
     transition: all 0.2s;
     line-height: 1;
+    color: var(--text);
   }
   .theme-toggle:hover { background: var(--btn-hover); }
 
@@ -327,130 +339,188 @@
     h1 { font-size: 22px; }
     .stats-bar { gap: 16px; font-size: 14px; }
   }
+.lang-select { background:transparent; border:1px solid var(--card-border); border-radius:8px; padding:5px 8px; font-size:13px; color:var(--text); cursor:pointer; outline:none; font-family:inherit; }
+.lang-select option { background:var(--card-bg); color:var(--text); }
 </style>
+<script src="i18n.js" defer></script>
 </head>
 <body>
 
 <main>
 <div class="nav-bar">
   <a href="index.html" class="nav-brand">
-    <img src="Reactr图标.png" alt="Blue Lightning" style="width:34px;height:34px;border-radius:14px;">
-    <span style="font-size:28px;font-weight:700;color:var(--heading);letter-spacing:0.5px;">Blue Lightning</span>
+    <svg width="34" height="34" viewBox="0 0 40 40" style="flex-shrink:0;"><defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#818cf8"/></linearGradient></defs><polygon points="20,4 8,22 16,22 15,36 28,16 21,16 22,4" fill="url(#logoGrad)"/></svg>
+    <span style="font-size:28px;font-weight:700;letter-spacing:0.5px;"><span style="color:var(--heading);">Blue</span> <span style="color:#38bdf8;">Lightning</span></span>
   </a>
   <div class="nav-row">
-    <a href="index.html" class="nav-btn active">⚡ 反应力测试</a>
-    <a href="shooting.html" class="nav-btn">🎯 射击训练</a>
-    <a href="aim-king.html" class="nav-btn">🔫 我是AWM王</a>
+    <a href="index.html" class="nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span data-i18n="nav.reaction">反应力测试</span></a>
+    <a href="shooting.html" class="nav-btn active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span data-i18n="nav.shooting">射击训练</span></a>
+    <a href="aim-king.html" class="nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg><span data-i18n="nav.awm">狙击手训练</span></a>
   </div>
-  <div class="theme-toggle-wrapper">
-    <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+  <div class="theme-toggle-wrapper" style="display:flex;align-items:center;gap:8px;">
+    <select class="lang-select" onchange="switchLang(this.value)">
+      <option value="zh-CN">简</option><option value="zh-TW">繁</option><option value="en">EN</option><option value="ja">日</option><option value="ko">한</option>
+    </select>
+    <button class="theme-toggle" id="themeToggle" data-i18n-title="nav.theme" title="切换主题">
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </button>
     
   </div>
 </div>
 
   <div class="game-area">
-    <h1>🎯 射击训练</h1>
+    <h1 data-i18n="shooting.title">射击训练</h1>
+    <p class="subtitle" data-i18n="shooting.subtitle">30 秒限时挑战，点击移动目标得分，测试你的鼠标定位精度与手眼协调能力</p>
 
     <div class="stats-bar">
-      <div>得分: <span id="score">0</span></div>
-      <div>时间: <span id="timer">30</span>s</div>
-      <div>难度: <span id="diffLabel">入门</span></div>
-      <div>射击: <span id="shots">0</span> 次</div>
-      <div>命中率: <span id="accuracy">--</span>%</div>
-      <div>偏离: <span id="avgDev">--</span>px</div>
+      <div><span data-i18n="shooting.score">得分</span>: <span id="score">0</span></div>
+      <div><span data-i18n="shooting.time">时间</span>: <span id="timer">30</span>s</div>
+      <div><span data-i18n="shooting.difficulty">难度</span>: <span id="diffLabel">入门</span></div>
+      <div><span data-i18n="shooting.shots">射击</span>: <span id="shots">0</span></div>
+      <div><span data-i18n="shooting.accuracy">命中率</span>: <span id="accuracy">--</span>%</div>
+      <div><span data-i18n="shooting.avgDev">偏离</span>: <span id="avgDev">--</span>px</div>
     </div>
 
     <div class="canvas-wrapper">
       <canvas id="canvas" width="600" height="450"></canvas>
       <div class="overlay" id="overlayStart">
-        <div class="overlay-title">射击训练</div>
-        <div class="overlay-sub">点击移动的小球来得分<br>30秒内尽可能多地命中目标</div>
-        <div class="overlay-label">选择难度</div>
+        <div class="overlay-title" data-i18n="shooting.overlayTitle">射击训练</div>
+        <div class="overlay-sub" data-i18n-html="shooting.overlaySub">点击移动的小球来得分<br>30秒内尽可能多地命中目标</div>
+        <div class="overlay-label" data-i18n="shooting.selectDiff">选择难度</div>
         <div class="difficulty-selector" id="diffSelector">
-          <button class="diff-btn active" data-diff="easy">入门</button>
-          <button class="diff-btn" data-diff="medium">中等</button>
-          <button class="diff-btn" data-diff="hard">困难</button>
+          <button class="diff-btn active" data-diff="easy" data-i18n="shooting.easy">入门</button>
+          <button class="diff-btn" data-diff="medium" data-i18n="shooting.medium">中等</button>
+          <button class="diff-btn" data-diff="hard" data-i18n="shooting.hard">困难</button>
         </div>
-        <div class="overlay-label">选择时长</div>
+        <div class="overlay-label" data-i18n="shooting.durLabel">选择时长</div>
         <div class="difficulty-selector" id="durationSelector">
           <button class="diff-btn" data-dur="10">10s</button>
           <button class="diff-btn active" data-dur="30">30s</button>
           <button class="diff-btn" data-dur="60">60s</button>
         </div>
-        <button class="btn btn-start" id="btnStart">开始游戏</button>
+        <button class="btn btn-start" id="btnStart" data-i18n="shooting.startGame">开始游戏</button>
       </div>
       <div class="overlay hidden" id="overlayEnd">
         <div class="overlay-label" id="endDiffLabel">入门 · 30s</div>
         <div class="overlay-score" id="finalScore">0</div>
         <div class="overlay-label" id="gradeLabel"></div>
         <div class="overlay-label" id="endStats" style="display:flex;gap:24px;"></div>
-        <button class="btn btn-retry" id="btnRetry">再来一局</button>
+        <button class="btn btn-retry" id="btnRetry" data-i18n="shooting.retry">再来一局</button>
       </div>
     </div>
 
-    <div class="info">
+    <div class="info" data-i18n-html="shooting.info">
       点击移动小球命中得分 — 小球消失后会自动补充新目标<br>
       30秒倒计时结束统计你的总命中数
     </div>
+  </div>
 </main>
 
-<section style="width:100%;max-width:800px;margin:40px auto 0;padding:0 20px;color:var(--text-secondary);font-size:14px;line-height:1.8;">
+<section style="width:100%;max-width:800px;margin:60px auto 0;padding:0 20px;color:var(--text-secondary);font-size:15px;line-height:1.8;">
 
-  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
-    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:12px;">🎯 什么是射击训练？</h2>
-    <p style="color:var(--text-secondary);">射击训练是一款<strong style="color:var(--text);">在线定位能力测试工具</strong>，模拟 FPS 游戏中的射击场景。画面中有多个持续移动的小球，您需要在限时内尽可能多地点击命中。每次命中后小球消失并自动补充新目标。系统会记录命中率、平均偏离距离等数据，全面评估您的<strong style="color:var(--text);">鼠标定位精度和手眼协调能力</strong>。</p>
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:36px;margin-bottom:28px;">
+    <h2 style="color:var(--heading);font-size:24px;font-weight:700;margin-bottom:12px;" data-i18n="shooting.aboutTitle">什么是射击训练</h2>
+    <p style="color:var(--text-secondary);" data-i18n-html="shooting.aboutDesc">射击训练是一款<strong style="color:var(--text);">在线定位能力测试工具</strong>，模拟 FPS 游戏中的射击场景。画面中有多个持续移动的小球，您需要在限时内尽可能多地点击命中。每次命中后小球消失并自动补充新目标。系统会记录命中率、平均偏离距离等数据，全面评估您的<strong style="color:var(--text);">鼠标定位精度和手眼协调能力</strong>。</p>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
-      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">📈 训练效果</h3>
-      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
-        <li>提升鼠标快速定位的肌肉记忆</li>
-        <li>改善 FPS 游戏中的甩枪精准度</li>
-        <li>增强移动目标的追踪能力</li>
-        <li>降低无效点击率，提高命中率</li>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px;">
+      <h3 style="color:var(--heading);font-size:17px;font-weight:700;margin-bottom:10px;" data-i18n="shooting.effectTitle">训练效果</h3>
+      <ul style="padding-left:20px;color:var(--text-secondary);font-size:14px;line-height:2;">
+        <li data-i18n="shooting.effect1">提升鼠标快速定位的肌肉记忆</li>
+        <li data-i18n="shooting.effect2">改善 FPS 游戏中的甩枪精准度</li>
+        <li data-i18n="shooting.effect3">增强移动目标的追踪能力</li>
+        <li data-i18n="shooting.effect4">降低无效点击率，提高命中率</li>
       </ul>
     </div>
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
-      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">💡 提升技巧</h3>
-      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
-        <li>优先保证命中率，再追求速度</li>
-        <li>从入门难度开始，逐步挑战更高难度的移动速度</li>
-        <li>关注"平均偏离"数据，缩小点击误差</li>
-        <li>每天练习 10-15 分钟效果最佳</li>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px;">
+      <h3 style="color:var(--heading);font-size:17px;font-weight:700;margin-bottom:10px;" data-i18n="shooting.tipsTitle">提升技巧</h3>
+      <ul style="padding-left:20px;color:var(--text-secondary);font-size:14px;line-height:2;">
+        <li data-i18n="shooting.tip1">优先保证命中率，再追求速度</li>
+        <li data-i18n="shooting.tip2">从入门难度开始，逐步挑战更高速度</li>
+        <li data-i18n="shooting.tip3">关注"平均偏离"数据，缩小点击误差</li>
+        <li data-i18n="shooting.tip4">每天练习 10-15 分钟效果最佳</li>
       </ul>
     </div>
   </div>
 
-  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
-    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:16px;">❓ 常见问题</h2>
-    <div style="margin-bottom:16px;">
-      <p style="color:var(--text);font-weight:600;">Q. 三个难度有什么区别？</p>
-      <p style="color:var(--muted);font-size:13px;">入门难度小球移动最慢，中等为 2 倍速，困难为 3 倍速。建议从入门开始，命中率达到 80% 以上再升级。</p>
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:36px;margin-bottom:28px;">
+    <h2 style="color:var(--heading);font-size:24px;font-weight:700;margin-bottom:16px;" data-i18n="shooting.faqTitle">常见问题</h2>
+    <div style="margin-bottom:18px;">
+      <p style="color:var(--text);font-weight:600;" data-i18n="shooting.faq1q">Q. 三个难度有什么区别？</p>
+      <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.faq1a">入门难度小球移动速度为 1，中等为 2 倍速，困难为 3 倍速。建议从入门开始，命中率达到 80% 以上再升级。</p>
     </div>
-    <div style="margin-bottom:16px;">
-      <p style="color:var(--text);font-weight:600;">Q. "平均偏离"是什么意思？</p>
-      <p style="color:var(--muted);font-size:13px;">平均偏离是您每次命中点击位置距离小球圆心的平均像素距离。数值越小说明定位越精准，理想值为 0-5px。</p>
+    <div style="margin-bottom:18px;">
+      <p style="color:var(--text);font-weight:600;" data-i18n="shooting.faq2q">Q. "平均偏离"是什么意思？</p>
+      <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.faq2a">平均偏离是您每次命中点击位置距离小球圆心的平均像素距离。数值越小说明定位越精准，理想值为 0-5px。</p>
+    </div>
+    <div style="margin-bottom:18px;">
+      <p style="color:var(--text);font-weight:600;" data-i18n="shooting.faq3q">Q. 如何选择适合自己的时长？</p>
+      <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.faq3a">新手建议 10s 短局快速上手，日常训练推荐 30s 标准局，挑战极限可选 60s 长局考验耐力和稳定性。</p>
+    </div>
+    <div style="margin-bottom:18px;">
+      <p style="color:var(--text);font-weight:600;" data-i18n="shooting.faq4q">Q. 命中率多少才算好？</p>
+      <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.faq4a">入门难度 80% 以上为合格，90% 以上为优秀。中等难度 70% 以上算不错，困难难度能达到 60% 已是高手水平。</p>
     </div>
     <div>
-      <p style="color:var(--text);font-weight:600;">Q. 如何选择适合自己的时长？</p>
-      <p style="color:var(--muted);font-size:13px;">新手建议 10s 短局快速上手，日常训练推荐 30s 标准局，挑战极限可选 60s 长局考验耐力和稳定性。</p>
+      <p style="color:var(--text);font-weight:600;" data-i18n="shooting.faq5q">Q. 为什么我的命中率忽高忽低？</p>
+      <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.faq5a">这很正常。手感、疲劳度、心态都会影响表现。建议关注长期趋势而非单局成绩，坚持一周后看整体进步。</p>
     </div>
   </div>
 
-  <div id="historySection" style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;margin-bottom:20px;display:none;">
-    <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:12px;">📋 最近记录</h3>
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:36px;margin-bottom:28px;">
+    <h2 style="color:var(--heading);font-size:24px;font-weight:700;margin-bottom:16px;" data-i18n="reaction.didYouKnow">你知道吗</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="padding:16px;background:var(--bg);border-radius:12px;text-align:center;">
+        <p style="font-size:28px;font-weight:800;color:var(--accent);" data-i18n="shooting.fact1val">55+</p>
+        <p style="font-size:13px;color:var(--muted);" data-i18n="shooting.fact1lbl">入门难度 S 级分数线</p>
+      </div>
+      <div style="padding:16px;background:var(--bg);border-radius:12px;text-align:center;">
+        <p style="font-size:28px;font-weight:800;color:#4ade80;" data-i18n="shooting.fact2val">3 倍</p>
+        <p style="font-size:13px;color:var(--muted);" data-i18n="shooting.fact2lbl">困难难度小球移动速度</p>
+      </div>
+      <div style="padding:16px;background:var(--bg);border-radius:12px;text-align:center;">
+        <p style="font-size:28px;font-weight:800;color:#fbbf24;" data-i18n="shooting.fact3val">5 个</p>
+        <p style="font-size:13px;color:var(--muted);" data-i18n="shooting.fact3lbl">同时在场上的小球数量</p>
+      </div>
+      <div style="padding:16px;background:var(--bg);border-radius:12px;text-align:center;">
+        <p style="font-size:28px;font-weight:800;color:#f87171;" data-i18n="shooting.fact4val">60s</p>
+        <p style="font-size:13px;color:var(--muted);" data-i18n="shooting.fact4lbl">最长挑战时间</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+    <a href="index.html" style="text-decoration:none;color:inherit;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px;height:100%;transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.15)';" onmouseout="this.style.transform='';this.style.boxShadow='';">
+        <h3 style="color:var(--heading);font-size:17px;font-weight:700;margin-bottom:8px;" data-i18n="shooting.rel1Title">反应力测试</h3>
+        <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.rel1Desc">在线测量视觉反应速度，每轮 5 次取平均。精准评估神经反射能力，最低可达 100ms 以内。</p>
+        <p style="color:var(--accent);font-size:13px;margin-top:8px;" data-i18n="reaction.relCTA2">开始测试 →</p>
+      </div>
+    </a>
+    <a href="aim-king.html" style="text-decoration:none;color:inherit;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px;height:100%;transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.15)';" onmouseout="this.style.transform='';this.style.boxShadow='';">
+        <h3 style="color:var(--heading);font-size:17px;font-weight:700;margin-bottom:8px;" data-i18n="shooting.rel2Title">狙击手训练</h3>
+        <p style="color:var(--muted);font-size:14px;" data-i18n="shooting.rel2Desc">模拟真实狙击场景，三种距离移动靶。子弹飞行有延迟，考验预判和定位精度。</p>
+        <p style="color:var(--accent);font-size:13px;margin-top:8px;" data-i18n="reaction.relCTA">开始训练 →</p>
+      </div>
+    </a>
+  </div>
+
+  <div id="historySection" style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px;margin-bottom:28px;display:none;">
+    <h3 style="color:var(--heading);font-size:17px;font-weight:700;margin-bottom:12px;" data-i18n="shooting.historyTitle">最近记录</h3>
     <div id="historyList" style="display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap;"></div>
   </div>
 
 </section>
 
-<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:var(--muted);font-size:13px;line-height:2;border-top:1px solid var(--card-border);">
-  <p style="margin-top:8px;">更多在线小工具：<a href="index.html" style="color:#38bdf8;">反应力测试</a> · <a href="aim-king.html" style="color:#38bdf8;">狙击训练</a> | &copy; 2026 Blue Lightning</p>
-<noscript style="display:block;text-align:center;padding:20px;color:#94a3b8;background:#0f172a;">
-  <p>🎯 射击训练 — 在线测试你的鼠标定位能力</p>
-  <p>30秒限时挑战，三种难度可选。点击移动小球命中得分。</p>
-  <p>请启用 JavaScript 以使用此工具。</p>
+<footer style="width:100%;max-width:800px;margin:20px auto;padding:24px;text-align:center;color:var(--muted);font-size:13px;line-height:2;border-top:1px solid var(--card-border);">
+  <p style="margin-top:8px;"><span data-i18n="common.moreTools">更多在线小工具</span>：<a href="index.html" style="color:var(--accent);"><span data-i18n="nav.reaction">反应力测试</span></a> · <a href="aim-king.html" style="color:var(--accent);"><span data-i18n="nav.awm">狙击手训练</span></a> | &copy; 2026 Blue Lightning</p>
+<noscript style="display:block;text-align:center;padding:20px;color:var(--text-secondary);">
+  <p data-i18n="common.noscript.s">射击训练 — 在线测试你的鼠标定位能力</p>
+  <p data-i18n="common.noscript.s2">30秒限时挑战，三种难度可选。点击移动小球命中得分。</p>
+  <p data-i18n="common.noscript">请启用 JavaScript 以使用此工具。</p>
 </noscript>
 </footer>
 
@@ -479,11 +549,13 @@ const BALL_COUNT = 5;
 const BALL_RADIUS = 22;
 const TRAIL_LENGTH = 8;
 
+var _t = (typeof t !== 'undefined') ? t : function(k) { return k; };
 const DIFFICULTY = {
-  easy:   { label: '入门', minSpeed: 1, color: '#4ade80' },
-  medium: { label: '中等', minSpeed: 2, color: '#fbbf24' },
-  hard:   { label: '困难', minSpeed: 3, color: '#f87171' }
+  easy:   { key: 'shooting.easy',   minSpeed: 1, color: '#4ade80' },
+  medium: { key: 'shooting.medium', minSpeed: 2, color: '#fbbf24' },
+  hard:   { key: 'shooting.hard',   minSpeed: 3, color: '#f87171' }
 };
+function diffLabelText(diff) { return (typeof t !== 'undefined' ? t : _t)(DIFFICULTY[diff].key); }
 
 let currentDiff = 'easy';
 let gameDuration = 30;
@@ -699,7 +771,7 @@ function startGame() {
   gameRunning = true;
   const d = DIFFICULTY[currentDiff];
   currentSpeed = d.minSpeed;
-  diffLabel.textContent = d.label;
+  diffLabel.textContent = diffLabelText(currentDiff);
   diffLabel.style.color = d.color;
   scoreEl.textContent = '0';
   shotsEl.textContent = '0';
@@ -727,9 +799,9 @@ function endGame() {
   const pct = totalShots > 0 ? Math.round((score / totalShots) * 100) : 0;
   const avgD = totalShots > 0 ? (totalDeviation / totalShots).toFixed(1) : '--';
 
-  endDiffLabel.textContent = d.label + ' · ' + gameDuration + 's';
+  endDiffLabel.textContent = diffLabelText(currentDiff) + ' · ' + gameDuration + 's';
   finalScoreEl.textContent = score;
-  endStatsEl.innerHTML = '命中率 ' + pct + '% &nbsp;|&nbsp; 平均偏离 ' + avgD + 'px &nbsp;|&nbsp; 射击 ' + totalShots + ' 次';
+  endStatsEl.innerHTML = t('shooting.accuracy') + ' ' + pct + '% &nbsp;|&nbsp; ' + t('shooting.avgDev') + ' ' + avgD + 'px &nbsp;|&nbsp; ' + t('shooting.shots') + ' ' + totalShots;
 
   // grade thresholds (base for 10s, scaled by duration)
   const baseScale = gameDuration / 10;
@@ -739,16 +811,16 @@ function endGame() {
   else                               { s = Math.round(12 * baseScale); a = Math.round(10 * baseScale); b = Math.round(8 * baseScale); }
 
   let grade, badgeClass;
-  if (score >= s)        { grade = 'S 级 — 神枪手'; badgeClass = 'badge-s'; }
-  else if (score >= a)   { grade = 'A 级 — 精准射手'; badgeClass = 'badge-a'; }
-  else if (score >= b)   { grade = 'B 级 — 合格'; badgeClass = 'badge-b'; }
-  else                   { grade = 'C 级 — 继续努力'; badgeClass = 'badge-c'; }
+  if (score >= s)        { grade = t('shooting.gradeS'); badgeClass = 'badge-s'; }
+  else if (score >= a)   { grade = t('shooting.gradeA'); badgeClass = 'badge-a'; }
+  else if (score >= b)   { grade = t('shooting.gradeB'); badgeClass = 'badge-b'; }
+  else                   { grade = t('shooting.gradeC'); badgeClass = 'badge-c'; }
 
   gradeLabel.innerHTML = `<span class="result-badge ${badgeClass}">${grade}</span>`;
   overlayEnd.classList.remove('hidden');
 
   // save to localStorage history
-  saveHistory(score, pct, d.label, gameDuration);
+  saveHistory(score, pct, diffLabelText(currentDiff), gameDuration);
 }
 
 function setDifficulty(diff) {
@@ -812,10 +884,10 @@ durBtns.forEach(btn => {
 
 // history
 const HISTORY_KEY = 'shooting_history';
-function saveHistory(sc, pct, diffLabelText, dur) {
+function saveHistory(sc, pct, diffText, dur) {
   let history = [];
   try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) {}
-  history.unshift({ score: sc, accuracy: pct, difficulty: diffLabelText, duration: dur, date: Date.now() });
+  history.unshift({ score: sc, accuracy: pct, difficulty: diffText, duration: dur, date: Date.now() });
   if (history.length > 5) history = history.slice(0, 5);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   renderHistory();
@@ -846,9 +918,14 @@ initBalls();
 draw();
 
 const themeToggle = document.getElementById('themeToggle');
+const iconMoon = themeToggle.querySelector('.icon-moon');
+const iconSun = themeToggle.querySelector('.icon-sun');
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
-  themeToggle.textContent = t === 'light' ? '☀️' : '🌙';
+  if (iconMoon && iconSun) {
+    iconMoon.style.display = t === 'dark' ? '' : 'none';
+    iconSun.style.display = t === 'light' ? '' : 'none';
+  }
   localStorage.setItem('theme', t);
 }
 const saved = localStorage.getItem('theme') || 'dark';

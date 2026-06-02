@@ -45,7 +45,24 @@
 </div>
 
 <script>
-function drawOG(canvasId, emoji, title, subtitle, accentColor) {
+function drawBolt(ctx, cx, cy, size, color) {
+  // Lightning bolt icon drawn with canvas path
+  const s = size / 40;
+  ctx.save();
+  ctx.translate(cx - 20*s, cy - 20*s);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(20*s, 4*s);
+  ctx.lineTo(8*s, 20*s); ctx.lineTo(16*s, 20*s);
+  ctx.lineTo(15*s, 36*s);
+  ctx.lineTo(28*s, 16*s); ctx.lineTo(21*s, 16*s);
+  ctx.lineTo(22*s, 4*s);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawOG(canvasId, title, subtitle, accentColor) {
   const c = document.getElementById(canvasId);
   const ctx = c.getContext('2d');
 
@@ -58,7 +75,7 @@ function drawOG(canvasId, emoji, title, subtitle, accentColor) {
   ctx.fillRect(0, 0, 1200, 630);
 
   // subtle grid pattern
-  ctx.strokeStyle = 'rgba(51,65,85,0.15)';
+  ctx.strokeStyle = 'rgba(51,65,85,0.12)';
   ctx.lineWidth = 1;
   for (let x = 0; x < 1200; x += 60) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 630); ctx.stroke();
@@ -68,47 +85,46 @@ function drawOG(canvasId, emoji, title, subtitle, accentColor) {
   }
 
   // accent glow
-  const glow = ctx.createRadialGradient(600, 200, 50, 600, 200, 400);
-  glow.addColorStop(0, accentColor + '20');
+  const glow = ctx.createRadialGradient(600, 180, 30, 600, 180, 380);
+  glow.addColorStop(0, accentColor + '18');
   glow.addColorStop(1, 'transparent');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, 1200, 630);
 
-  // emoji
-  ctx.font = '120px system-ui';
+  // Lightning bolt icon
+  drawBolt(ctx, 600, 170, 80, accentColor);
+
+  // Brand name
+  ctx.font = 'bold 36px system-ui';
+  ctx.fillStyle = '#64748b';
   ctx.textAlign = 'center';
-  ctx.fillText(emoji, 600, 220);
+  ctx.fillText('Blue Lightning', 600, 125);
 
   // title
   ctx.font = 'bold 64px system-ui';
   ctx.fillStyle = '#f1f5f9';
-  ctx.fillText(title, 600, 330);
+  ctx.fillText(title, 600, 310);
 
   // subtitle
   ctx.font = '32px system-ui';
   ctx.fillStyle = '#94a3b8';
-  ctx.fillText(subtitle, 600, 400);
+  ctx.fillText(subtitle, 600, 380);
 
   // accent bar
   ctx.fillStyle = accentColor;
   ctx.beginPath();
-  ctx.roundRect(500, 460, 200, 6, 3);
+  ctx.roundRect(480, 440, 240, 6, 3);
   ctx.fill();
 
   // domain
   ctx.font = '24px system-ui';
-  ctx.fillStyle = '#64748b';
-  ctx.fillText('Blue Lightning · wwbluetalk.top', 600, 520);
-
-  // URL
-  ctx.font = '20px system-ui';
   ctx.fillStyle = '#475569';
-  ctx.fillText('免费在线小工具', 600, 560);
+  ctx.fillText('wwbluetalk.top  ·  免费在线小工具', 600, 520);
 }
 
-drawOG('c1', '⚡', '反应力测试', '在线测测你的反应速度有多快', '#38bdf8');
-drawOG('c2', '🎯', '射击训练', '30秒限时挑战 · 测试鼠标定位能力', '#4ade80');
-drawOG('c3', '🔫', '我是AWM王', '三种距离移动靶 · 真实狙击体验', '#f87171');
+drawOG('c1', '反应力测试', '在线测量你的视觉反应速度', '#38bdf8');
+drawOG('c2', '射击训练', '30 秒限时挑战 · 测试鼠标定位能力', '#4ade80');
+drawOG('c3', '狙击手训练', '三种距离移动靶 · 真实狙击体验', '#f87171');
 
 function download(canvasId, filename) {
   const c = document.getElementById(canvasId);
