@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0f172a">
-<meta name="author" content="BlueTalk">
+<meta name="author" content="Reactr">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f172a'/><text x='50' y='.7em' font-size='80' text-anchor='middle'>⚡</text></svg>">
 <title>反应力测试 - 在线测测你的反应速度</title>
@@ -12,6 +12,8 @@
 <meta name="keywords" content="反应力测试,反应速度测试,反应时间,在线测试, reflexes test">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://wwbluetalk.top/">
+<link rel="alternate" hreflang="zh-CN" href="https://wwbluetalk.top/">
+<link rel="alternate" hreflang="x-default" href="https://wwbluetalk.top/">
 
 <!-- Open Graph (微信/QQ/Facebook 分享预览) -->
 <meta property="og:title" content="反应力测试 - 测测你的反应速度">
@@ -63,11 +65,41 @@
 }
 </script>
 <style>
+
+    :root, [data-theme="dark"] {
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --heading: #f1f5f9;
+      --muted: #64748b;
+      --text-secondary: #94a3b8;
+      --accent: #38bdf8;
+      --overlay-bg: rgba(15, 23, 42, 0.9);
+      --btn-hover: #1e293b;
+      --input-bg: #334155;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --heading: #0f172a;
+      --muted: #94a3b8;
+      --text-secondary: #64748b;
+      --accent: #0284c7;
+      --overlay-bg: rgba(248, 250, 252, 0.9);
+      --btn-hover: #f1f5f9;
+      --input-bg: #e2e8f0;
+    }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--bg); }
   body {
+    padding-top: 100px;
     font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #0f172a;
-    color: #e2e8f0;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -80,13 +112,13 @@
     max-width: 728px;
     height: 90px;
     margin: 16px auto;
-    background: linear-gradient(135deg, #1e293b, #334155);
+    background: linear-gradient(135deg, var(--card-bg), var(--card-border));
     border: 2px dashed #475569;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: var(--muted);
     font-size: 14px;
     letter-spacing: 1px;
   }
@@ -114,13 +146,13 @@
   .ad-sidebar {
     width: 160px;
     min-height: 600px;
-    background: linear-gradient(180deg, #1e293b, #334155);
+    background: linear-gradient(180deg, var(--card-bg), var(--card-border));
     border: 2px dashed #475569;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: var(--muted);
     font-size: 13px;
     letter-spacing: 1px;
     writing-mode: vertical-rl;
@@ -138,7 +170,7 @@
   h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--heading);
     letter-spacing: 2px;
   }
 
@@ -146,9 +178,9 @@
     display: flex;
     gap: 32px;
     font-size: 15px;
-    color: #94a3b8;
+    color: var(--text-secondary);
   }
-  .stats span { color: #38bdf8; font-weight: 600; }
+  .stats span { color: var(--accent); font-weight: 600; }
 
   .click-zone {
     width: 320px;
@@ -164,14 +196,14 @@
     font-weight: 700;
     user-select: none;
     transition: background 0.15s, transform 0.1s;
-    background: #1e293b;
-    border: 3px solid #334155;
-    color: #94a3b8;
+    background: var(--card-bg);
+    border: 3px solid var(--card-border);
+    color: var(--text-secondary);
   }
   .click-zone .zone-hint {
     font-size: 13px;
     font-weight: 400;
-    color: #64748b;
+    color: var(--muted);
   }
   .click-zone.waiting .zone-hint,
   .click-zone.ready .zone-hint { color: rgba(255,255,255,0.7); }
@@ -188,18 +220,33 @@
     box-shadow: 0 0 60px rgba(22,163,74,0.3);
   }
   .click-zone:active { transform: scale(0.97); }
+  .click-zone.retry {
+    background: var(--card-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .click-zone.retry:hover {
+    background: #1e3a5f;
+    border-color: var(--accent);
+  }
+  [data-theme="light"] .click-zone.retry:hover {
+    background: #e0f2fe;
+  }
+
 
   .round-progress { text-align: center; }
   .progress-dots { display: flex; gap: 10px; justify-content: center; margin-bottom: 6px; }
   .progress-dots .dot {
     width: 14px; height: 14px; border-radius: 50%;
-    background: #334155; transition: background 0.2s;
+    background: var(--card-border); transition: background 0.2s;
   }
   .progress-dots .dot.done   { background: #22c55e; }
-  .progress-dots .dot.active { background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.5); }
+  .progress-dots .dot.active { background: var(--accent); box-shadow: 0 0 8px rgba(56,189,248,0.5); }
   .progress-dots .dot.foul   { background: #ef4444; }
-  .round-label { font-size: 14px; color: #94a3b8; }
-  .round-label span { color: #38bdf8; font-weight: 600; }
+  .round-label { font-size: 14px; color: var(--text-secondary); }
+  .round-label span { color: var(--accent); font-weight: 600; }
 
   .result-row {
     display: flex;
@@ -219,23 +266,23 @@
 
   .round-summary {
     text-align: center;
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 16px 24px;
     min-width: 300px;
   }
   .summary-title {
-    font-size: 15px; font-weight: 700; color: #38bdf8; margin-bottom: 8px;
+    font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 8px;
   }
   .summary-scores {
     display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px;
   }
   .summary-scores span {
-    padding: 2px 10px; background: #0f172a; border-radius: 6px;
-    font-size: 14px; font-variant-numeric: tabular-nums; color: #cbd5e1;
+    padding: 2px 10px; background: var(--bg); border-radius: 6px;
+    font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text);
   }
-  .summary-avg { font-size: 18px; font-weight: 700; color: #f1f5f9; }
+  .summary-avg { font-size: 18px; font-weight: 700; color: var(--heading); }
 
   .history {
     margin-top: 8px;
@@ -247,32 +294,32 @@
   }
   .history-item {
     padding: 3px 10px;
-    background: #1e293b;
+    background: var(--card-bg);
     border-radius: 6px;
     font-size: 13px;
     font-variant-numeric: tabular-nums;
-    color: #cbd5e1;
+    color: var(--text);
   }
 
   .nav-btn {
     display: inline-block;
     padding: 6px 18px;
-    border: 1px solid #334155;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
     font-size: 14px;
-    color: #94a3b8;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: all 0.2s;
   }
   .nav-btn:hover {
-    background: #1e293b;
-    border-color: #38bdf8;
-    color: #38bdf8;
+    background: var(--card-bg);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .info {
     font-size: 13px;
-    color: #64748b;
+    color: var(--muted);
     text-align: center;
     line-height: 1.6;
   }
@@ -283,16 +330,62 @@
     max-width: 728px;
     height: 90px;
     margin: 16px auto;
-    background: linear-gradient(135deg, #1e293b, #334155);
+    background: linear-gradient(135deg, var(--card-bg), var(--card-border));
     border: 2px dashed #475569;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: var(--muted);
     font-size: 14px;
     letter-spacing: 1px;
   }
+
+
+    .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .nav-brand {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .theme-toggle-wrapper {
+    position: absolute;
+    right: 24px;
+  }
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+    margin-left: 24px;
+  }
+  .theme-toggle:hover { background: var(--btn-hover); }
 
   @media (max-width: 768px) {
     .layout { flex-direction: column; align-items: center; }
@@ -311,53 +404,113 @@
 <body>
 
 <main>
-  <div class="game-area">
-      <h1>⚡ 反应力测试</h1>
-	      <div class="nav-row" style="display:flex;gap:8px;">
-	        <a href="shooting.html" class="nav-btn">🎯 射击训练</a>
-	        <a href="aim-king.html" class="nav-btn">🔫 我是AWM王</a>
-	      </div>
+<div class="nav-bar">
+  <a href="index.html" class="nav-brand">
+    <img src="Reactr图标.png" alt="Reactr" style="width:34px;height:34px;border-radius:14px;">
+    <span style="font-size:28px;font-weight:700;color:var(--heading);letter-spacing:0.5px;">Reactr</span>
+  </a>
+  <div class="nav-row">
+    <a href="index.html" class="nav-btn active">⚡ 反应力测试</a>
+    <a href="shooting.html" class="nav-btn">🎯 射击训练</a>
+    <a href="aim-king.html" class="nav-btn">🔫 我是AWM王</a>
+  </div>
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+    
+  </div>
+</div>
 
-      <div class="stats">
-        <div>总轮数: <span id="totalRounds">0</span></div>
-        <div>历史最佳: <span id="best">--</span>ms</div>
-        <div>总平均: <span id="avg">--</span>ms</div>
-      </div>
+<div class="game-area">
+  <h1>⚡ 反应力测试</h1>
 
-      <div class="round-progress" id="roundProgress" style="display:none;">
-        <div class="progress-dots" id="progressDots">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </div>
-        <div class="round-label">第 <span id="currentRound">1</span> / 5 次</div>
-      </div>
+  <div class="stats">
+    <div>总轮数: <span id="totalRounds">0</span></div>
+    <div>历史最佳: <span id="best">--</span>ms</div>
+    <div>总平均: <span id="avg">--</span>ms</div>
+  </div>
 
-      <div class="click-zone" id="zone">点击开始新一轮</div>
-
-      <div class="result-row" id="resultRow" style="display:none;">
-        本次: <span id="lastTime"></span>ms
-        <span id="badge"></span>
-      </div>
-
-      <div class="round-summary" id="roundSummary" style="display:none;">
-        <div class="summary-title">本轮完成</div>
-        <div class="summary-scores" id="summaryScores"></div>
-        <div class="summary-avg">本轮平均: <span id="roundAvg"></span>ms <span id="roundBadge"></span></div>
-      </div>
-
-      <div class="history" id="history"></div>
-
-      <div class="info">
-        点击方块开始一轮 5 次测试 — 变绿后立即按下<br>
-        绿之前点击视为犯规，该次测试重来
-      </div>
+  <div class="round-progress" id="roundProgress" style="display:none;">
+    <div class="progress-dots" id="progressDots">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
     </div>
+    <div class="round-label">第 <span id="currentRound">1</span> / 5 次</div>
+  </div>
 
+  <div class="click-zone" id="zone">点击开始测试</div>
+
+  <div class="result-row" id="resultRow" style="display:none;">
+    本次: <span id="lastTime"></span>ms
+    <span id="badge"></span>
+  </div>
+
+  <div class="round-summary" id="roundSummary" style="display:none;">
+    <div class="summary-title">本轮完成</div>
+    <div class="summary-scores" id="summaryScores"></div>
+    <div class="summary-avg">本轮平均: <span id="roundAvg"></span>ms <span id="roundBadge"></span></div>
+  </div>
+
+  <div class="history" id="history"></div>
+
+  <div class="info">
+    点击方块开始一轮 5 次测试 — 变绿后立即按下<br>
+    绿之前点击视为犯规，该次测试重来
+  </div>
+</div>
 </main>
 
-<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:#64748b;font-size:13px;line-height:2;border-top:1px solid #1e293b;">
-  <p style="color:#94a3b8;font-size:15px;font-weight:600;margin-bottom:8px;">关于反应力测试</p>
-  <p>在线反应力测试工具，帮助您精准测量反应速度。每轮进行 <strong style="color:#cbd5e1;">5 次随机延迟测试</strong>，自动取平均值以消除误差。反应时间是人类大脑处理信息并做出决策的速度体现，训练反应力可以有效提升游戏竞技表现和日常反应能力。</p>
-  <p style="margin-top:8px;">更多在线小工具：<a href="shooting.html" style="color:#38bdf8;">射击训练</a> · <a href="aim-king.html" style="color:#38bdf8;">狙击训练</a> | &copy; 2026 BlueTalk</p>
+<section style="width:100%;max-width:800px;margin:40px auto 0;padding:0 20px;color:var(--text-secondary);font-size:14px;line-height:1.8;">
+
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
+    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:12px;">⚡ 什么是反应力测试？</h2>
+    <p style="color:var(--text-secondary);">反应力测试是一种<strong style="color:var(--text);">测量人类反应时间</strong>的在线工具。屏幕颜色随机从红色变为绿色，您需要在看到变化的瞬间立即点击。测试进行 5 轮取平均值，以消除单次偶然误差。反应时间是衡量神经传导速度和大脑信息处理效率的重要指标。</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
+      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">🎯 训练效果</h3>
+      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
+        <li>缩短视觉到动作的反应延迟</li>
+        <li>提升 FPS 游戏中的对枪反应速度</li>
+        <li>改善日常驾驶中的应急反应</li>
+        <li>延缓年龄增长导致的反应衰退</li>
+      </ul>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
+      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">💡 提升技巧</h3>
+      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
+        <li>保持手指轻触鼠标，减少物理延迟</li>
+        <li>测试前避免咖啡因过量导致手抖</li>
+        <li>每天练习 5-10 分钟，贵在坚持</li>
+        <li>关注平均值而非单次最佳成绩</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
+    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:16px;">❓ 常见问题</h2>
+    <div style="margin-bottom:16px;">
+      <p style="color:var(--text);font-weight:600;">Q. 多少毫秒算好的反应时间？</p>
+      <p style="color:var(--muted);font-size:13px;">普通人的视觉反应时间在 200-250ms 之间。职业 FPS 玩家通常在 150-180ms。低于 150ms 属于优秀水平。</p>
+    </div>
+    <div style="margin-bottom:16px;">
+      <p style="color:var(--text);font-weight:600;">Q. 移动端和电脑端测试有区别吗？</p>
+      <p style="color:var(--muted);font-size:13px;">有。手机触屏的响应延迟通常比鼠标高 20-50ms，且网络延迟也会影响。建议在电脑端使用有线鼠标以获得最准确的结果。</p>
+    </div>
+    <div>
+      <p style="color:var(--text);font-weight:600;">Q. 反应力可以训练提升吗？</p>
+      <p style="color:var(--muted);font-size:13px;">可以。通过持续训练可以提升 20-50ms。但每个人的基因上限不同，训练效果存在个体差异。</p>
+    </div>
+  </div>
+
+</section>
+
+<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:var(--muted);font-size:13px;line-height:2;border-top:1px solid var(--card-border);">
+  <p style="margin-top:8px;">更多在线小工具：<a href="shooting.html" style="color:var(--accent);">射击训练</a> · <a href="aim-king.html" style="color:var(--accent);">狙击训练</a> | &copy; 2026 Reactr</p>
+<noscript style="display:block;text-align:center;padding:20px;color:#94a3b8;background:#0f172a;">
+  <p>⚡ 反应力测试 — 在线测量你的反应速度</p>
+  <p>每轮5次测试，自动计算平均反应时间。支持鼠标点击计时。</p>
+  <p>请启用 JavaScript 以使用此工具。</p>
+</noscript>
 </footer>
 
 <script>
@@ -396,9 +549,9 @@ function setState(s) {
   state = s;
   zone.classList.remove('waiting', 'ready');
   if (s === 'idle') {
-    zone.innerHTML = '点击开始新一轮';
+    zone.innerHTML = totalRounds > 0 ? '再来一局' : '点击开始测试';
     zone.appendChild(zoneHint);
-    zoneHint.textContent = '每轮 5 次测试';
+    zoneHint.textContent = totalRounds > 0 ? '点击开始新一轮' : '每轮 5 次测试';
   } else if (s === 'waiting') {
     zone.classList.add('waiting');
     zone.innerHTML = '等待变绿...';
@@ -494,14 +647,15 @@ function finishRound() {
 
   updateGlobalStats();
   renderHistory();
+  zone.classList.add('retry');
   setState('idle');
-  zoneHint.textContent = '每轮 5 次测试';
 }
 
 zone.addEventListener('mousedown', (e) => {
   e.preventDefault();
   if (state === 'idle') {
     // start new round
+    zone.classList.remove('retry');
     roundScores = [];
     roundSummary.style.display = 'none';
     resultRow.style.display = 'none';
@@ -551,6 +705,19 @@ zone.addEventListener('mousedown', (e) => {
     }
   }
 });
+
+const themeToggle = document.getElementById('themeToggle');
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  themeToggle.textContent = t === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('theme', t);
+}
+setTheme(localStorage.getItem('theme') || 'dark');
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+});
+
 </script>
 
 </body>

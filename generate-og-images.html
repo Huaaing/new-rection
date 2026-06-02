@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OG 图片生成器</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1e293b; color: #e2e8f0; font-family: system-ui, sans-serif; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+  .card { background: #0f172a; border-radius: 12px; padding: 16px; text-align: center; }
+  canvas { border-radius: 8px; border: 2px solid #334155; display: block; margin-bottom: 8px; }
+  button {
+    padding: 8px 20px; background: #2563eb; color: #fff; border: none;
+    border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  button:hover { background: #1d4ed8; }
+  .info { text-align: center; margin-top: 24px; color: #64748b; font-size: 13px; line-height: 1.8; }
+</style>
+</head>
+<body>
+<h1>🖼️ OG 社交分享图片生成器</h1>
+<div class="grid">
+
+  <div class="card">
+    <canvas id="c1" width="1200" height="630"></canvas>
+    <button onclick="download('c1','og-image.png')">下载 og-image.png</button>
+  </div>
+
+  <div class="card">
+    <canvas id="c2" width="1200" height="630"></canvas>
+    <button onclick="download('c2','og-image-shooting.png')">下载 og-image-shooting.png</button>
+  </div>
+
+  <div class="card">
+    <canvas id="c3" width="1200" height="630"></canvas>
+    <button onclick="download('c3','og-image-aimking.png')">下载 og-image-aimking.png</button>
+  </div>
+
+</div>
+<div class="info">
+  点击下载按钮保存图片 → 上传到网站根目录<br>
+  图片尺寸: 1200×630 (最佳的社交分享比例)
+</div>
+
+<script>
+function drawOG(canvasId, emoji, title, subtitle, accentColor) {
+  const c = document.getElementById(canvasId);
+  const ctx = c.getContext('2d');
+
+  // background gradient
+  const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+  grad.addColorStop(0, '#0f172a');
+  grad.addColorStop(0.5, '#1e293b');
+  grad.addColorStop(1, '#0f172a');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // subtle grid pattern
+  ctx.strokeStyle = 'rgba(51,65,85,0.15)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < 1200; x += 60) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 630); ctx.stroke();
+  }
+  for (let y = 0; y < 630; y += 60) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1200, y); ctx.stroke();
+  }
+
+  // accent glow
+  const glow = ctx.createRadialGradient(600, 200, 50, 600, 200, 400);
+  glow.addColorStop(0, accentColor + '20');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // emoji
+  ctx.font = '120px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText(emoji, 600, 220);
+
+  // title
+  ctx.font = 'bold 64px system-ui';
+  ctx.fillStyle = '#f1f5f9';
+  ctx.fillText(title, 600, 330);
+
+  // subtitle
+  ctx.font = '32px system-ui';
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillText(subtitle, 600, 400);
+
+  // accent bar
+  ctx.fillStyle = accentColor;
+  ctx.beginPath();
+  ctx.roundRect(500, 460, 200, 6, 3);
+  ctx.fill();
+
+  // domain
+  ctx.font = '24px system-ui';
+  ctx.fillStyle = '#64748b';
+  ctx.fillText('wwbluetalk.top', 600, 520);
+
+  // URL
+  ctx.font = '20px system-ui';
+  ctx.fillStyle = '#475569';
+  ctx.fillText('免费在线小工具', 600, 560);
+}
+
+drawOG('c1', '⚡', '反应力测试', '在线测测你的反应速度有多快', '#38bdf8');
+drawOG('c2', '🎯', '射击训练', '30秒限时挑战 · 测试鼠标定位能力', '#4ade80');
+drawOG('c3', '🔫', '我是AWM王', '三种距离移动靶 · 真实狙击体验', '#f87171');
+
+function download(canvasId, filename) {
+  const c = document.getElementById(canvasId);
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

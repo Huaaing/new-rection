@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0f172a">
-<meta name="author" content="BlueTalk">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f172a'/><text x='50' y='.7em' font-size='80' text-anchor='middle'>🎯</text></svg>">
+<meta name="author" content="Reactr">
+<link rel="icon" type="image/png" href="Reactr图标.png">
+<link rel="apple-touch-icon" href="Reactr图标.png">
 <title>射击训练 - 在线测试你的射击定位能力</title>
 <meta name="description" content="免费在线射击训练工具，30秒限时点击移动目标，精准测量你的射击定位能力。">
 <meta name="keywords" content="射击训练,定位能力测试,反应力,在线测试,aim trainer">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://wwbluetalk.top/shooting.html">
+<link rel="alternate" hreflang="zh-CN" href="https://wwbluetalk.top/shooting.html">
+<link rel="alternate" hreflang="x-default" href="https://wwbluetalk.top/">
 
 <meta property="og:title" content="射击训练 - 测试你的射击定位能力">
 <meta property="og:description" content="免费在线射击训练，30秒限时点击移动小球，看看你的定位有多准。">
@@ -65,15 +67,45 @@
 }
 </script>
 <style>
+
+    /* theme variables */
+    :root, [data-theme="dark"] {
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --heading: #f1f5f9;
+      --muted: #64748b;
+      --text-secondary: #94a3b8;
+      --accent: #38bdf8;
+      --overlay-bg: rgba(15, 23, 42, 0.9);
+      --btn-hover: #1e293b;
+      --input-bg: #334155;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --heading: #0f172a;
+      --muted: #94a3b8;
+      --text-secondary: #64748b;
+      --accent: #0284c7;
+      --overlay-bg: rgba(248, 250, 252, 0.9);
+      --btn-hover: #f1f5f9;
+      --input-bg: #e2e8f0;
+    }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #0f172a;
-    color: #e2e8f0;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 100px;
   }
 
   .main-container {
@@ -97,34 +129,34 @@
   h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--heading);
     letter-spacing: 2px;
   }
 
   .nav-btn {
     display: inline-block;
     padding: 6px 18px;
-    border: 1px solid #334155;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
     font-size: 14px;
-    color: #94a3b8;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: all 0.2s;
   }
   .nav-btn:hover {
-    background: #1e293b;
-    border-color: #38bdf8;
-    color: #38bdf8;
+    background: var(--card-bg);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .stats-bar {
     display: flex;
     gap: 32px;
     font-size: 15px;
-    color: #94a3b8;
+    color: var(--text-secondary);
     align-items: center;
   }
-  .stats-bar span { color: #38bdf8; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stats-bar span { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
 
   .timer-warning { color: #ef4444 !important; }
 
@@ -132,8 +164,8 @@
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    border: 3px solid #334155;
-    background: #1e293b;
+    border: 3px solid var(--card-border);
+    background: var(--card-bg);
     box-shadow: 0 0 40px rgba(0,0,0,0.3);
   }
 
@@ -150,19 +182,18 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background: rgba(15, 23, 42, 0.85);
-    pointer-events: none;
+    background: var(--overlay-bg);
   }
   .overlay.hidden { display: none; }
 
   .overlay-title {
     font-size: 26px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--heading);
   }
   .overlay-sub {
     font-size: 14px;
-    color: #94a3b8;
+    color: var(--text-secondary);
     max-width: 280px;
     text-align: center;
     line-height: 1.6;
@@ -170,11 +201,11 @@
   .overlay-score {
     font-size: 48px;
     font-weight: 800;
-    color: #38bdf8;
+    color: var(--accent);
   }
   .overlay-label {
     font-size: 14px;
-    color: #94a3b8;
+    color: var(--text-secondary);
   }
 
   .btn {
@@ -185,7 +216,6 @@
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    pointer-events: auto;
   }
   .btn:active { transform: scale(0.96); }
   .btn-start {
@@ -202,29 +232,27 @@
   .difficulty-selector {
     display: flex;
     gap: 8px;
-    pointer-events: auto;
   }
   .diff-btn {
     padding: 6px 16px;
-    border: 1px solid #334155;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
     background: transparent;
-    color: #94a3b8;
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    pointer-events: auto;
   }
   .diff-btn:hover {
-    background: #1e293b;
-    border-color: #64748b;
-    color: #e2e8f0;
+    background: var(--card-bg);
+    border-color: var(--muted);
+    color: var(--text);
   }
   .diff-btn.active {
     background: #1e3a5f;
-    border-color: #38bdf8;
-    color: #38bdf8;
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .result-badge {
@@ -240,10 +268,57 @@
 
   .info {
     font-size: 13px;
-    color: #64748b;
+    color: var(--muted);
     text-align: center;
     line-height: 1.6;
   }
+
+
+  
+    .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    gap: 16px;
+  }
+  .nav-brand {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+    .theme-toggle-wrapper {
+    position: absolute;
+    right: 24px;
+  }
+    .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .theme-toggle:hover { background: var(--btn-hover); }
 
   @media (max-width: 768px) {
     canvas { width: 340px; height: 340px; }
@@ -255,17 +330,32 @@
 <body>
 
 <main>
+<div class="nav-bar">
+  <a href="index.html" class="nav-brand">
+    <img src="Reactr图标.png" alt="Reactr" style="width:34px;height:34px;border-radius:14px;">
+    <span style="font-size:28px;font-weight:700;color:var(--heading);letter-spacing:0.5px;">Reactr</span>
+  </a>
+  <div class="nav-row">
+    <a href="index.html" class="nav-btn active">⚡ 反应力测试</a>
+    <a href="shooting.html" class="nav-btn">🎯 射击训练</a>
+    <a href="aim-king.html" class="nav-btn">🔫 我是AWM王</a>
+  </div>
+  <div class="theme-toggle-wrapper">
+    <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+    
+  </div>
+</div>
+
   <div class="game-area">
-    <div class="nav-row" style="display:flex;gap:8px;">
-      <a href="index.html" class="nav-btn">⚡ 反应力测试</a>
-      <a href="aim-king.html" class="nav-btn">🔫 我是AWM王</a>
-    </div>
     <h1>🎯 射击训练</h1>
 
     <div class="stats-bar">
-      <div>难度: <span id="diffLabel">入门</span></div>
-      <div>命中: <span id="score">0</span></div>
+      <div>得分: <span id="score">0</span></div>
       <div>时间: <span id="timer">30</span>s</div>
+      <div>难度: <span id="diffLabel">入门</span></div>
+      <div>射击: <span id="shots">0</span> 次</div>
+      <div>命中率: <span id="accuracy">--</span>%</div>
+      <div>偏离: <span id="avgDev">--</span>px</div>
     </div>
 
     <div class="canvas-wrapper">
@@ -273,22 +363,25 @@
       <div class="overlay" id="overlayStart">
         <div class="overlay-title">射击训练</div>
         <div class="overlay-sub">点击移动的小球来得分<br>30秒内尽可能多地命中目标</div>
+        <div class="overlay-label">选择难度</div>
         <div class="difficulty-selector" id="diffSelector">
           <button class="diff-btn active" data-diff="easy">入门</button>
           <button class="diff-btn" data-diff="medium">中等</button>
           <button class="diff-btn" data-diff="hard">困难</button>
         </div>
+        <div class="overlay-label">选择时长</div>
+        <div class="difficulty-selector" id="durationSelector">
+          <button class="diff-btn" data-dur="10">10s</button>
+          <button class="diff-btn active" data-dur="30">30s</button>
+          <button class="diff-btn" data-dur="60">60s</button>
+        </div>
         <button class="btn btn-start" id="btnStart">开始游戏</button>
       </div>
       <div class="overlay hidden" id="overlayEnd">
-        <div class="overlay-label" id="endDiffLabel">入门</div>
+        <div class="overlay-label" id="endDiffLabel">入门 · 30s</div>
         <div class="overlay-score" id="finalScore">0</div>
         <div class="overlay-label" id="gradeLabel"></div>
-        <div class="difficulty-selector" id="diffSelectorEnd">
-          <button class="diff-btn" data-diff="easy">入门</button>
-          <button class="diff-btn" data-diff="medium">中等</button>
-          <button class="diff-btn" data-diff="hard">困难</button>
-        </div>
+        <div class="overlay-label" id="endStats" style="display:flex;gap:24px;"></div>
         <button class="btn btn-retry" id="btnRetry">再来一局</button>
       </div>
     </div>
@@ -299,10 +392,64 @@
     </div>
 </main>
 
-<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:#64748b;font-size:13px;line-height:2;border-top:1px solid #1e293b;">
-  <p style="color:#94a3b8;font-size:15px;font-weight:600;margin-bottom:8px;">关于射击训练</p>
-  <p>在线射击定位能力测试，<strong style="color:#cbd5e1;">30 秒限时挑战</strong>，三种难度可选。移动小球在画布中弹跳，点击命中即可得分。训练你的鼠标定位精度和手眼协调能力，受到 FPS 玩家和电竞训练者的欢迎。</p>
-  <p style="margin-top:8px;">更多在线小工具：<a href="index.html" style="color:#38bdf8;">反应力测试</a> · <a href="aim-king.html" style="color:#38bdf8;">狙击训练</a> | &copy; 2026 BlueTalk</p>
+<section style="width:100%;max-width:800px;margin:40px auto 0;padding:0 20px;color:var(--text-secondary);font-size:14px;line-height:1.8;">
+
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
+    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:12px;">🎯 什么是射击训练？</h2>
+    <p style="color:var(--text-secondary);">射击训练是一款<strong style="color:var(--text);">在线定位能力测试工具</strong>，模拟 FPS 游戏中的射击场景。画面中有多个持续移动的小球，您需要在限时内尽可能多地点击命中。每次命中后小球消失并自动补充新目标。系统会记录命中率、平均偏离距离等数据，全面评估您的<strong style="color:var(--text);">鼠标定位精度和手眼协调能力</strong>。</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
+      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">📈 训练效果</h3>
+      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
+        <li>提升鼠标快速定位的肌肉记忆</li>
+        <li>改善 FPS 游戏中的甩枪精准度</li>
+        <li>增强移动目标的追踪能力</li>
+        <li>降低无效点击率，提高命中率</li>
+      </ul>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;">
+      <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;">💡 提升技巧</h3>
+      <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px;">
+        <li>优先保证命中率，再追求速度</li>
+        <li>从入门难度开始，逐步挑战更高难度的移动速度</li>
+        <li>关注"平均偏离"数据，缩小点击误差</li>
+        <li>每天练习 10-15 分钟效果最佳</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:20px;">
+    <h2 style="color:var(--heading);font-size:22px;font-weight:700;margin-bottom:16px;">❓ 常见问题</h2>
+    <div style="margin-bottom:16px;">
+      <p style="color:var(--text);font-weight:600;">Q. 三个难度有什么区别？</p>
+      <p style="color:var(--muted);font-size:13px;">入门难度小球移动最慢，中等为 2 倍速，困难为 3 倍速。建议从入门开始，命中率达到 80% 以上再升级。</p>
+    </div>
+    <div style="margin-bottom:16px;">
+      <p style="color:var(--text);font-weight:600;">Q. "平均偏离"是什么意思？</p>
+      <p style="color:var(--muted);font-size:13px;">平均偏离是您每次命中点击位置距离小球圆心的平均像素距离。数值越小说明定位越精准，理想值为 0-5px。</p>
+    </div>
+    <div>
+      <p style="color:var(--text);font-weight:600;">Q. 如何选择适合自己的时长？</p>
+      <p style="color:var(--muted);font-size:13px;">新手建议 10s 短局快速上手，日常训练推荐 30s 标准局，挑战极限可选 60s 长局考验耐力和稳定性。</p>
+    </div>
+  </div>
+
+  <div id="historySection" style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;margin-bottom:20px;display:none;">
+    <h3 style="color:var(--heading);font-size:16px;font-weight:700;margin-bottom:12px;">📋 最近记录</h3>
+    <div id="historyList" style="display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap;"></div>
+  </div>
+
+</section>
+
+<footer style="width:100%;max-width:800px;margin:20px auto;padding:20px;text-align:center;color:var(--muted);font-size:13px;line-height:2;border-top:1px solid var(--card-border);">
+  <p style="margin-top:8px;">更多在线小工具：<a href="index.html" style="color:#38bdf8;">反应力测试</a> · <a href="aim-king.html" style="color:#38bdf8;">狙击训练</a> | &copy; 2026 Reactr</p>
+<noscript style="display:block;text-align:center;padding:20px;color:#94a3b8;background:#0f172a;">
+  <p>🎯 射击训练 — 在线测试你的鼠标定位能力</p>
+  <p>30秒限时挑战，三种难度可选。点击移动小球命中得分。</p>
+  <p>请启用 JavaScript 以使用此工具。</p>
+</noscript>
 </footer>
 
 <script>
@@ -311,15 +458,21 @@ const ctx = canvas.getContext('2d');
 
 const scoreEl = document.getElementById('score');
 const timerEl = document.getElementById('timer');
+const shotsEl = document.getElementById('shots');
+const accuracyEl = document.getElementById('accuracy');
+const avgDevEl = document.getElementById('avgDev');
 const diffLabel = document.getElementById('diffLabel');
 const overlayStart = document.getElementById('overlayStart');
 const overlayEnd = document.getElementById('overlayEnd');
 const finalScoreEl = document.getElementById('finalScore');
 const gradeLabel = document.getElementById('gradeLabel');
 const endDiffLabel = document.getElementById('endDiffLabel');
-const diffBtns = document.querySelectorAll('.diff-btn');
+const endStatsEl = document.getElementById('endStats');
+const diffBtns = document.querySelectorAll('[data-diff]');
+const durBtns = document.querySelectorAll('#durationSelector .diff-btn');
+const historySection = document.getElementById('historySection');
+const historyList = document.getElementById('historyList');
 
-const GAME_DURATION = 30;
 const BALL_COUNT = 5;
 const BALL_RADIUS = 22;
 const TRAIL_LENGTH = 8;
@@ -331,13 +484,17 @@ const DIFFICULTY = {
 };
 
 let currentDiff = 'easy';
+let gameDuration = 30;
 let currentSpeed = DIFFICULTY.easy.minSpeed;
 let balls = [];
 let score = 0;
-let timeLeft = GAME_DURATION;
+let totalShots = 0;
+let totalDeviation = 0;
+let timeLeft = gameDuration;
 let gameRunning = false;
 let animationId = null;
 let gameStartTime = 0;
+let clickMarkers = [];  // { x, y, time } — 点击小红点
 
 function rand(min, max) {
   return Math.random() * (max - min) + min;
@@ -473,13 +630,48 @@ function draw() {
   for (const ball of balls) {
     drawBall(ball);
   }
+
+  // 绘制点击小红点（0.3s 渐隐）
+  drawClickMarkers();
+}
+
+function drawClickMarkers() {
+  const now = performance.now();
+  // 清理过期标记 + 绘制
+  clickMarkers = clickMarkers.filter(m => {
+    const age = now - m.time;
+    if (age >= 300) return false;
+
+    const alpha = 1 - age / 300;
+    const r = 3;
+
+    // 外圈 glow
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, r + 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 50, 50, ${alpha * 0.25})`;
+    ctx.fill();
+
+    // 主红点
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 30, 30, ${alpha})`;
+    ctx.fill();
+
+    // 中心高亮
+    ctx.beginPath();
+    ctx.arc(m.x - 1, m.y - 1, r * 0.35, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 200, 200, ${alpha * 0.7})`;
+    ctx.fill();
+
+    return true;
+  });
 }
 
 function gameLoop(timestamp) {
   if (!gameRunning) return;
 
   const elapsed = (timestamp - gameStartTime) / 1000;
-  timeLeft = Math.max(0, GAME_DURATION - elapsed);
+  timeLeft = Math.max(0, gameDuration - elapsed);
   timerEl.textContent = Math.ceil(timeLeft);
 
   if (timeLeft <= 5) {
@@ -499,13 +691,19 @@ function gameLoop(timestamp) {
 
 function startGame() {
   score = 0;
-  timeLeft = GAME_DURATION;
+  totalShots = 0;
+  totalDeviation = 0;
+  timeLeft = gameDuration;
   gameRunning = true;
   const d = DIFFICULTY[currentDiff];
   currentSpeed = d.minSpeed;
   diffLabel.textContent = d.label;
+  diffLabel.style.color = d.color;
   scoreEl.textContent = '0';
-  timerEl.textContent = GAME_DURATION;
+  shotsEl.textContent = '0';
+  accuracyEl.textContent = '--';
+  avgDevEl.textContent = '--';
+  timerEl.textContent = gameDuration;
   timerEl.classList.remove('timer-warning');
   overlayStart.classList.add('hidden');
   overlayEnd.classList.add('hidden');
@@ -524,14 +722,19 @@ function endGame() {
   }
 
   const d = DIFFICULTY[currentDiff];
-  endDiffLabel.textContent = '难度: ' + d.label;
-  finalScoreEl.textContent = score;
+  const pct = totalShots > 0 ? Math.round((score / totalShots) * 100) : 0;
+  const avgD = totalShots > 0 ? (totalDeviation / totalShots).toFixed(1) : '--';
 
-  // grade thresholds adjust by difficulty
+  endDiffLabel.textContent = d.label + ' · ' + gameDuration + 's';
+  finalScoreEl.textContent = score;
+  endStatsEl.innerHTML = '命中率 ' + pct + '% &nbsp;|&nbsp; 平均偏离 ' + avgD + 'px &nbsp;|&nbsp; 射击 ' + totalShots + ' 次';
+
+  // grade thresholds (base for 10s, scaled by duration)
+  const baseScale = gameDuration / 10;
   let s, a, b;
-  if (currentDiff === 'easy')       { s = 55; a = 44; b = 33; }
-  else if (currentDiff === 'medium') { s = 45; a = 36; b = 27; }
-  else                               { s = 35; a = 28; b = 21; }
+  if (currentDiff === 'easy')       { s = Math.round(24 * baseScale); a = Math.round(20 * baseScale); b = Math.round(16 * baseScale); }
+  else if (currentDiff === 'medium') { s = Math.round(18 * baseScale); a = Math.round(15 * baseScale); b = Math.round(12 * baseScale); }
+  else                               { s = Math.round(12 * baseScale); a = Math.round(10 * baseScale); b = Math.round(8 * baseScale); }
 
   let grade, badgeClass;
   if (score >= s)        { grade = 'S 级 — 神枪手'; badgeClass = 'badge-s'; }
@@ -541,6 +744,9 @@ function endGame() {
 
   gradeLabel.innerHTML = `<span class="result-badge ${badgeClass}">${grade}</span>`;
   overlayEnd.classList.remove('hidden');
+
+  // save to localStorage history
+  saveHistory(score, pct, d.label, gameDuration);
 }
 
 function setDifficulty(diff) {
@@ -563,28 +769,93 @@ canvas.addEventListener('click', (e) => {
   const mx = (e.clientX - rect.left) * scaleX;
   const my = (e.clientY - rect.top) * scaleY;
 
+  // 记录点击位置，用于绘制 0.3s 渐隐红点
+  clickMarkers.push({ x: mx, y: my, time: performance.now() });
+
+  totalShots++;
+  shotsEl.textContent = totalShots;
+
+  let hit = false;
   for (let i = balls.length - 1; i >= 0; i--) {
     const ball = balls[i];
     const dx = mx - ball.x;
     const dy = my - ball.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
     if (dist <= ball.radius) {
-      // hit! remove this ball and spawn a new one
       balls.splice(i, 1);
       score++;
+      totalDeviation += dist;
       scoreEl.textContent = score;
       spawnBall();
-      return;
+      hit = true;
+      break;
     }
   }
+
+  // update live stats
+  const pct = totalShots > 0 ? Math.round((score / totalShots) * 100) : 0;
+  accuracyEl.textContent = pct;
+  const avgD = score > 0 ? (totalDeviation / score).toFixed(1) : '--';
+  avgDevEl.textContent = avgD;
 });
 
+// duration selector
+durBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    gameDuration = parseInt(btn.dataset.dur);
+    durBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// history
+const HISTORY_KEY = 'shooting_history';
+function saveHistory(sc, pct, diffLabelText, dur) {
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) {}
+  history.unshift({ score: sc, accuracy: pct, difficulty: diffLabelText, duration: dur, date: Date.now() });
+  if (history.length > 5) history = history.slice(0, 5);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  renderHistory();
+}
+function renderHistory() {
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) {}
+  if (!history.length) { historySection.style.display = 'none'; return; }
+  historySection.style.display = 'block';
+  historyList.innerHTML = history.map(h => {
+    const badge = h.score >= 25 ? '#4ade80' : h.score >= 12 ? '#fbbf24' : '#f87171';
+    return `<span style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--text);">
+      <span style="color:${badge};font-weight:700;">${h.score}</span> 分
+      <span style="color:var(--muted);"> | ${h.accuracy}% | ${h.difficulty} | ${h.duration}s</span>
+    </span>`;
+  }).join('');
+}
+renderHistory();
+
 document.getElementById('btnStart').addEventListener('click', startGame);
-document.getElementById('btnRetry').addEventListener('click', startGame);
+document.getElementById('btnRetry').addEventListener('click', () => {
+  overlayEnd.classList.add('hidden');
+  overlayStart.classList.remove('hidden');
+});
 
 // initial render
 initBalls();
 draw();
+
+const themeToggle = document.getElementById('themeToggle');
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  themeToggle.textContent = t === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('theme', t);
+}
+const saved = localStorage.getItem('theme') || 'dark';
+setTheme(saved);
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+});
+
 </script>
 
 </body>
