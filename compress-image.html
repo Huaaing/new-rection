@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图片压缩工具 — 训练假人.png → WebP</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f172a; color: #e2e8f0; font-family: system-ui, sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 30px 20px;
+  }
+  h1 { margin-bottom: 20px; }
+  .panel {
+    background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+    padding: 24px; max-width: 600px; width: 100%; text-align: center;
+  }
+  .drop-zone {
+    border: 2px dashed #475569; border-radius: 10px; padding: 40px 20px;
+    margin: 16px 0; cursor: pointer; transition: border-color 0.2s;
+    color: #94a3b8; font-size: 15px;
+  }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: #38bdf8; color: #38bdf8; }
+  .drop-zone input { display: none; }
+  .result { margin-top: 16px; display: none; }
+  .result.show { display: block; }
+  .result .sizes { display: flex; gap: 20px; justify-content: center; margin: 12px 0; }
+  .result .size-box {
+    background: #0f172a; border-radius: 8px; padding: 12px 20px;
+    text-align: center; min-width: 100px;
+  }
+  .size-box .num { font-size: 28px; font-weight: 700; color: #38bdf8; }
+  .size-box .label { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .saved { color: #4ade80; font-size: 13px; }
+  button {
+    padding: 10px 28px; background: #2563eb; color: #fff; border: none;
+    border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 4px;
+  }
+  button:hover { background: #1d4ed8; }
+  .quality-row { margin: 12px 0; color: #94a3b8; font-size: 13px; }
+  .quality-row input { margin: 0 6px; width: 100px; }
+  .note { margin-top: 20px; color: #64748b; font-size: 13px; line-height: 1.8; }
+  img.preview { max-width: 300px; max-height: 200px; border-radius: 8px; margin: 12px 0; }
+</style>
+</head>
+<body>
+<h1>📦 图片压缩工具</h1>
+<div class="panel">
+  <p style="color:#94a3b8;">将大图片转为更小的 WebP 格式，加快网页加载速度</p>
+  <div class="drop-zone" id="dropZone">
+    📂 点击选择图片 或 拖放图片到这里
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+  <div class="quality-row">
+    质量: <input type="range" id="quality" min="50" max="95" value="80" step="5">
+    <span id="qualityVal">80</span>%
+  </div>
+  <div class="result" id="result">
+    <img class="preview" id="preview" alt="预览">
+    <div class="sizes">
+      <div class="size-box">
+        <div class="num" id="origSize">--</div>
+        <div class="label">原始大小</div>
+      </div>
+      <div class="size-box">
+        <div class="num" id="newSize">--</div>
+        <div class="label">WebP 大小</div>
+      </div>
+      <div class="size-box">
+        <div class="num" id="savedPct" style="color:#4ade80;">--</div>
+        <div class="label">节省</div>
+      </div>
+    </div>
+    <button id="downloadBtn">⬇ 下载 WebP 文件</button>
+  </div>
+</div>
+<div class="note">
+  <strong>说明：</strong>选择 "训练假人.png" → 自动转换为 WebP → 下载替换<br>
+  WebP 格式比 PNG 小 <strong>60-80%</strong>，加载速度大幅提升，Google PageSpeed 评分更高
+</div>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const qualitySlider = document.getElementById('quality');
+const qualityVal = document.getElementById('qualityVal');
+const resultDiv = document.getElementById('result');
+const preview = document.getElementById('preview');
+const origSizeEl = document.getElementById('origSize');
+const newSizeEl = document.getElementById('newSize');
+const savedPctEl = document.getElementById('savedPct');
+const downloadBtn = document.getElementById('downloadBtn');
+
+let webpBlob = null;
+
+function formatKB(bytes) {
+  return (bytes / 1024).toFixed(1) + ' KB';
+}
+
+function processFile(file) {
+  const origKB = file.size;
+  origSizeEl.textContent = formatKB(file.size);
+
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    preview.src = canvas.toDataURL('image/png');
+    preview.style.display = 'inline';
+
+    canvas.toBlob((blob) => {
+      webpBlob = blob;
+      newSizeEl.textContent = formatKB(blob.size);
+      const saved = Math.round((1 - blob.size / origKB) * 100);
+      savedPctEl.textContent = saved + '%';
+      resultDiv.classList.add('show');
+    }, 'image/webp', qualitySlider.value / 100);
+  };
+  img.src = URL.createObjectURL(file);
+}
+
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files[0]) processFile(e.target.files[0]);
+});
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) processFile(file);
+});
+
+qualitySlider.addEventListener('input', () => {
+  qualityVal.textContent = qualitySlider.value;
+  if (fileInput.files[0]) processFile(fileInput.files[0]);
+});
+
+downloadBtn.addEventListener('click', () => {
+  if (!webpBlob) return;
+  const url = URL.createObjectURL(webpBlob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '训练假人.webp';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
