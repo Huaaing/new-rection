@@ -18,7 +18,7 @@ const DICT = {
   'nav.theme':     { 'zh-CN':'切换主题',   'zh-TW':'切換主題',   'en':'Toggle theme',     'ja':'テーマ切替',       'ko':'테마 전환' },
 
   // ── 首页：反应力测试 ──────────────────────────
-  'reaction.title':    { 'zh-CN':'反应力测试', 'zh-TW':'反應力測試', 'en':'Reaction Time Test', 'ja':'反応速度テスト',     'ko':'반응 속도 테스트' },
+  'reaction.title':    { 'zh-CN':'Blue Lightning · 反应力测试', 'zh-TW':'Blue Lightning · 反應力測試', 'en':'Blue Lightning · Reaction Time Test', 'ja':'Blue Lightning · 反応速度テスト',     'ko':'Blue Lightning · 반응 속도 테스트' },
   'reaction.subtitle': { 'zh-CN':'在线测量你的视觉反应速度，每轮 5 次取平均，精准评估你的神经反射能力',
                           'zh-TW':'在線測量你的視覺反應速度，每輪 5 次取平均，精準評估你的神經反射能力',
                           'en':'Measure your visual reaction speed online. 5 trials per round, averaged for accuracy.',
@@ -97,7 +97,7 @@ const DICT = {
   'reaction.relCTA2':   { 'zh-CN':'开始测试 →', 'zh-TW':'開始測試 →', 'en':'Start Test →', 'ja':'テスト開始 →', 'ko':'테스트 시작 →' },
 
   // ── 射击训练页 ──────────────────────────────
-  'shooting.title':    { 'zh-CN':'射击训练', 'zh-TW':'射擊訓練', 'en':'Shooting Trainer', 'ja':'射撃訓練', 'ko':'사격 훈련' },
+  'shooting.title':    { 'zh-CN':'Blue Lightning · 射击训练', 'zh-TW':'Blue Lightning · 射擊訓練', 'en':'Blue Lightning · Shooting Trainer', 'ja':'Blue Lightning · 射撃訓練', 'ko':'Blue Lightning · 사격 훈련' },
   'shooting.subtitle': { 'zh-CN':'30 秒限时挑战，点击移动目标得分，测试你的鼠标定位精度与手眼协调能力',
                           'zh-TW':'30 秒限時挑戰，點擊移動目標得分，測試你的滑鼠定位精度與手眼協調能力',
                           'en':'Timed challenge — click moving targets to score. Test your mouse accuracy and hand-eye coordination.',
@@ -174,7 +174,7 @@ const DICT = {
   'shooting.rel2Desc':  { 'zh-CN':'模拟真实狙击场景，三种距离移动靶。子弹飞行有延迟，考验预判和定位精度。', 'zh-TW':'模擬真實狙擊場景，三種距離移動靶。子彈飛行有延遲，考驗預判和定位精度。', 'en':'Realistic sniper simulation with 3-distance moving targets. Bullet delay tests prediction and precision.', 'ja':'リアルな狙撃シミュレーション。3距離の移動標的。弾道遅延が予測と精度を試す。', 'ko':'실제 저격 시뮬레이션. 3가지 거리 이동 표적. 탄도 지연으로 예측과 정밀도 테스트.' },
 
   // ── AWM王 页 ──────────────────────────────────
-  'awm.title':    { 'zh-CN':'狙击手训练', 'zh-TW':'狙擊手訓練', 'en':'Sniper Training', 'ja':'スナイパー訓練', 'ko':'스나이퍼 훈련' },
+  'awm.title':    { 'zh-CN':'Blue Lightning · 狙击手训练', 'zh-TW':'Blue Lightning · 狙擊手訓練', 'en':'Blue Lightning · Sniper Training', 'ja':'Blue Lightning · スナイパー訓練', 'ko':'Blue Lightning · 스나이퍼 훈련' },
   'awm.subtitle': { 'zh-CN':'模拟真实狙击场景，三种距离移动靶，子弹飞行延迟，考验预判与定位精度',
                      'zh-TW':'模擬真實狙擊場景，三種距離移動靶，子彈飛行延遲，考驗預判與定位精度',
                      'en':'Realistic sniper simulation. Moving targets at three distances. Bullet travel delay tests your prediction and precision.',
